@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>MOUR APP — Mobile VIP Access</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body { width: 100%; min-height: 100vh; background-color: #030712; color: #F9FAFB; font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; overflow-x: hidden; line-height: 1.5; }
+
+    /* Header */
+    .site-header { position: sticky; top: 0; width: 100%; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); z-index: 100; padding: 10px 14px; }
+    .header-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .brand-row { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .logo-wrap { display: flex; align-items: center; gap: 8px; text-decoration: none; color: #FFFFFF; }
+    .logo-glasses { font-size: 22px; filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.6)); }
+    .logo-text { font-size: 19px; font-weight: 900; letter-spacing: -0.5px; background: linear-gradient(135deg, #FFFFFF 40%, #00E5FF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .vip-pill { background: rgba(0, 229, 255, 0.12); border: 1px solid rgba(0, 229, 255, 0.4); color: #00E5FF; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 999px; text-transform: uppercase; }
+    .header-cta-btn { background: linear-gradient(135deg, #008392 0%, #00B4D8 100%); color: #FFFFFF; font-size: 11px; font-weight: 800; padding: 6px 14px; border-radius: 999px; text-decoration: none; border: 1px solid rgba(0, 229, 255, 0.4); white-space: nowrap; }
+    .nav-menu { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px 14px; list-style: none; width: 100%; padding-top: 2px; }
+    .nav-menu a { color: #94A3B8; text-decoration: none; font-size: 11.5px; font-weight: 600; white-space: nowrap; }
+
+    /* Ticker */
+    .ticker-bar { width: 100%; background: rgba(15, 23, 42, 0.7); border-bottom: 1px solid rgba(255, 255, 255, 0.05); overflow-x: auto; white-space: nowrap; padding: 7px 14px; display: flex; align-items: center; gap: 16px; font-size: 11px; color: #94A3B8; -webkit-overflow-scrolling: touch; position: relative; z-index: 10; }
+    .ticker-bar::-webkit-scrollbar { display: none; }
+    .ticker-item { display: inline-flex; align-items: center; gap: 6px; }
+    .ticker-item strong { color: #F1F5F9; }
+    .ticker-live-dot { width: 6px; height: 6px; border-radius: 50%; background: #10B981; box-shadow: 0 0 8px #10B981; }
+
+    /* Hero */
+    .hero-section { position: relative; padding: 24px 16px 16px; text-align: center; max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; z-index: 5; }
+    .globe-bg-wrap { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 280px; height: 280px; pointer-events: none; z-index: -1; opacity: 0.32; }
+    #radarCanvas { width: 100%; height: 100%; display: block; }
+    .hero-badge-top { display: inline-flex; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.4); color: #FBBF24; font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; margin-bottom: 12px; }
+    .hero-title { font-size: clamp(32px, 9vw, 52px); font-weight: 900; line-height: 1.1; letter-spacing: -1px; color: #FFFFFF; margin-bottom: 6px; }
+    .hero-title span { background: linear-gradient(135deg, #00E5FF 0%, #38BDF8 50%, #818CF8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-pill-sub { display: inline-block; background: rgba(0, 229, 255, 0.08); border: 1px solid rgba(0, 229, 255, 0.3); color: #38BDF8; font-size: 10.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; margin-bottom: 10px; }
+    .hero-callout { font-size: clamp(15px, 4vw, 20px); font-weight: 800; color: #00E5FF; margin-bottom: 10px; }
+    .hero-desc { font-size: 13.5px; color: #94A3B8; line-height: 1.55; max-width: 520px; margin: 0 auto 16px auto; }
+
+    /* 4 VIP Cards */
+    .vip-cards-container { width: 100%; max-width: 540px; margin: 10px auto 30px auto; padding: 0 16px; display: flex; flex-direction: column; gap: 14px; z-index: 5; }
+    .vip-card { background: #0B1329; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+    .vip-card.tier-aqua { border: 1px solid #00E5FF; box-shadow: 0 8px 24px rgba(0, 229, 255, 0.12); }
+    .vip-card.tier-yellow { border: 1px solid #FBBF24; box-shadow: 0 8px 24px rgba(245, 158, 11, 0.12); }
+    .vip-card.tier-green { border: 1px solid #10B981; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.12); }
+    .vip-card.tier-purple { border: 1px solid #A855F7; box-shadow: 0 8px 24px rgba(168, 85, 247, 0.12); }
+    .card-badge { font-size: 9.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; }
+    .tier-aqua .card-badge { background: rgba(0, 229, 255, 0.15); color: #00E5FF; border: 1px solid rgba(0, 229, 255, 0.4); }
+    .tier-yellow .card-badge { background: rgba(245, 158, 11, 0.15); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .tier-green .card-badge { background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .tier-purple .card-badge { background: rgba(168, 85, 247, 0.15); color: #C084FC; border: 1px solid rgba(168, 85, 247, 0.4); }
+    .card-title { font-size: 18px; font-weight: 800; color: #FFFFFF; word-break: normal; }
+    .card-text { font-size: 12.5px; color: #94A3B8; line-height: 1.45; }
+    .card-action-btn { width: 100%; padding: 11px; border-radius: 9px; font-size: 12.5px; font-weight: 800; text-align: center; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: none; cursor: pointer; }
+    .tier-aqua .card-action-btn { background: #008392; color: #FFF; }
+    .tier-yellow .card-action-btn { background: #92400E; color: #FDE68A; }
+    .tier-green .card-action-btn { background: #065F46; color: #A7F3D0; }
+    .tier-purple .card-action-btn { background: #6B21A8; color: #E9D5FF; }
+
+    /* Founding Eye VIP Registration Form (Un-stretched) */
+    .form-wrapper { width: 100%; max-width: 480px; margin: 10px auto 36px auto; padding: 0 16px; z-index: 5; }
+    .mour-form-card { background: #0B1329; border: 1px solid #00E5FF; border-radius: 18px; overflow: hidden; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 229, 255, 0.12); }
+    .form-header { background: linear-gradient(135deg, #0F172A 0%, #070E22 100%); padding: 20px 16px; text-align: center; border-bottom: 1px solid #1E293B; }
+    .form-header-badge { display: inline-block; background: rgba(0, 229, 255, 0.12); border: 1px solid rgba(0, 229, 255, 0.4); color: #00E5FF; padding: 3px 10px; border-radius: 999px; font-size: 10.5px; font-weight: 800; text-transform: uppercase; margin-bottom: 6px; }
+    .form-header h2 { font-size: 22px; font-weight: 900; color: #FFFFFF; margin-bottom: 4px; }
+    .form-header p { font-size: 12.5px; color: #94A3B8; max-width: 380px; margin: 0 auto; line-height: 1.4; }
+
+    .quest-bonus-box { background: rgba(245, 158, 11, 0.08); border: 1px dashed rgba(245, 158, 11, 0.4); border-radius: 10px; padding: 12px; margin: 14px; text-align: center; }
+    .quest-bonus-title { color: #FBBF24; font-size: 12.5px; font-weight: 800; margin-bottom: 3px; }
+    .quest-bonus-text { color: #D1D5DB; font-size: 11px; line-height: 1.4; margin-bottom: 8px; }
+    .quest-bonus-btn { display: inline-block; background: #FBBF24; color: #030712; font-weight: 800; font-size: 11.5px; padding: 6px 16px; border-radius: 999px; text-decoration: none; }
+
+    .form-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+    .section-tag { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #00E5FF; border-bottom: 1px solid #1E293B; padding-bottom: 4px; }
+    .field-group { display: flex; flex-direction: column; gap: 5px; width: 100%; }
+    .field-group label { font-size: 12px; font-weight: 600; color: #E2E8F0; }
+    .field-group input, .field-group select { width: 100%; background: #0F172A; border: 1px solid #334155; border-radius: 8px; padding: 11px 12px; color: #FFFFFF; font-size: 16px; outline: none; }
+    .field-group input:focus, .field-group select:focus { border-color: #00E5FF; }
+    .notice-box { background: #0F172A; border: 1px solid #1E293B; border-radius: 8px; padding: 10px; font-size: 11.5px; color: #94A3B8; line-height: 1.4; }
+
+    .checkbox-row { display: flex; flex-direction: row; align-items: flex-start; gap: 10px; width: 100%; margin: 2px 0; }
+    .checkbox-row input[type="checkbox"] { width: 18px; min-width: 18px; max-width: 18px; height: 18px; margin-top: 2px; accent-color: #00E5FF; flex-shrink: 0; cursor: pointer; }
+    .checkbox-row label { flex: 1; font-size: 11.5px; color: #94A3B8; line-height: 1.4; word-break: normal; cursor: pointer; }
+
+    .submit-btn { width: 100%; background: linear-gradient(135deg, #008392 0%, #00B4D8 100%); color: #FFFFFF; font-size: 14.5px; font-weight: 800; padding: 14px; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 18px rgba(0, 229, 255, 0.35); }
+    .error-card { display: none; background: rgba(239, 68, 68, 0.15); color: #F87171; border: 1px solid #EF4444; padding: 10px; border-radius: 8px; font-size: 12px; text-align: center; }
+    .success-card { display: none; padding: 36px 16px; text-align: center; }
+
+    /* Bounty Rush Game */
+    .game-section { width: 100%; max-width: 520px; margin: 10px auto 40px auto; padding: 0 16px; text-align: center; }
+    .game-section h2 { font-size: 22px; font-weight: 800; color: #FBBF24; margin-bottom: 4px; }
+    .game-section p { font-size: 12px; color: #94A3B8; margin-bottom: 12px; }
+    .game-box-wrap { background: #0B1329; border: 1px solid rgba(0, 229, 255, 0.35); border-radius: 16px; padding: 12px; box-shadow: 0 14px 35px rgba(0, 0, 0, 0.8); position: relative; }
+    .game-canvas-frame { width: 100%; height: 240px; background: #020617; border-radius: 10px; position: relative; overflow: hidden; border: 1px solid #1E293B; }
+    #gameCanvas { width: 100%; height: 100%; display: block; touch-action: none; image-rendering: -webkit-optimize-contrast; }
+
+    /* Virtual D-Pad Controller */
+    .mobile-controls { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; padding: 8px 6px; background: #060D20; border-radius: 12px; border: 1px solid #1E293B; }
+    .dpad-grid { display: grid; grid-template-columns: 42px 42px 42px; grid-template-rows: 40px 40px; gap: 6px; justify-content: center; }
+    .dpad-btn { background: #0F172A; color: #00E5FF; border: 1px solid #334155; border-radius: 8px; font-size: 16px; font-weight: 900; display: flex; align-items: center; justify-content: center; user-select: none; cursor: pointer; touch-action: none; }
+    .dpad-btn:active { background: #008392; color: #FFF; }
+    .dpad-up { grid-column: 2; grid-row: 1; }
+    .dpad-left { grid-column: 1; grid-row: 2; }
+    .dpad-down { grid-column: 2; grid-row: 2; }
+    .dpad-right { grid-column: 3; grid-row: 2; }
+
+    .game-action-side { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+    .capture-action-btn { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: #000; font-weight: 900; font-size: 13px; padding: 12px 18px; border-radius: 10px; border: none; cursor: pointer; user-select: none; touch-action: none; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); }
+    .capture-action-btn:active { transform: scale(0.96); }
+    .game-hud-stat { font-size: 11px; color: #94A3B8; font-weight: 700; }
+
+    /* Footer */
+    .about-section { width: 100%; max-width: 540px; margin: 10px auto 40px auto; padding: 0 16px; text-align: center; }
+    .about-tag { font-size: 10.5px; font-weight: 800; color: #00E5FF; text-transform: uppercase; margin-bottom: 6px; }
+    .about-section h2 { font-size: 22px; font-weight: 800; color: #FFFFFF; margin-bottom: 8px; }
+    .about-section p { font-size: 13px; color: #94A3B8; line-height: 1.55; }
+    .site-footer { border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 24px 16px; text-align: center; font-size: 11.5px; color: #64748B; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand-row">
+        <a href="#" class="logo-wrap">
+          <span class="logo-glasses">🕶️</span>
+          <span class="logo-text">MOUR APP</span>
+          <span class="vip-pill">VIP 2.0</span>
+        </a>
+        <a href="#signup" class="header-cta-btn">Claim VIP Status →</a>
+      </div>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#tiers">Founding Eye</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#tiers">Earnings</a></li>
+          <li><a href="#game">Bounty Rush</a></li>
+          <li><a href="#signup">Waitlist</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Ticker -->
+  <div class="ticker-bar">
+    <div class="ticker-item"><span class="ticker-live-dot"></span><span><strong>58 Active Eyes</strong> in Miami, FL</span></div>
+    <div class="ticker-item"><span>🔒 Apple Pay Escrow: <strong>$1,840.00</strong></span></div>
+    <div class="ticker-item"><span>🛰 DMV ID Verification: <strong>ACTIVE</strong></span></div>
+    <div class="ticker-item"><span>⏱ Avg Response: <strong>2.1 min</strong></span></div>
+  </div>
+
+  <!-- Hero with Canvas Radar -->
+  <section class="hero-section">
+    <div class="globe-bg-wrap"><canvas id="radarCanvas" width="280" height="280"></canvas></div>
+    <div class="hero-badge-top">✨ WORLD PREMIERE • VIP EARLY ENROLLMENT</div>
+    <h1 class="hero-title">MOUR <span>APP</span></h1>
+    <div class="hero-pill-sub">MORE APP • ON-DEMAND VISUAL CREATOR NETWORK</div>
+    <div class="hero-callout">SIGN UP NOW TO BE ON OUR WAITLIST TO BE AN "EYE"</div>
+    <p class="hero-desc">
+      MOUR APP connects you instantly with local independent photographers and smart-glasses creators for real-time, authentic visual media. Shoot on-demand gigs with your smartphone or smart glasses and get paid instantly via Apple Pay escrow.
+    </p>
+  </section>
+
+  <!-- 4 VIP Cards -->
+  <section id="tiers" class="vip-cards-container">
+    <div class="vip-card tier-aqua">
+      <span class="card-badge">Exclusive VIP Enrollment</span>
+      <h3 class="card-title">Founding Eyes Enrollment Open</h3>
+      <p class="card-text">Right now is our VIP enrollment! We are accepting all Founding Eyes onto our waitlist today.</p>
+      <a href="#signup" class="card-action-btn">Claim Founding Eye Status →</a>
+    </div>
+
+    <div class="vip-card tier-yellow">
+      <span class="card-badge">First Gig Bonuses</span>
+      <h3 class="card-title">Bonuses On Your First Gigs</h3>
+      <p class="card-text">Founding Eye status unlocks cash escrow bonuses on your first completed photo & video gigs.</p>
+      <a href="#signup" class="card-action-btn">Unlock Gig Bonuses →</a>
+    </div>
+
+    <div class="vip-card tier-green">
+      <span class="card-badge">100% Acceptance Rate</span>
+      <h3 class="card-title">All Founding Eyes Accepted</h3>
+      <p class="card-text">Guaranteed entry. Join our waitlist now to lock in your official Founding Eye creator status.</p>
+      <a href="#signup" class="card-action-btn">Join Waitlist Guaranteed →</a>
+    </div>
+
+    <div class="vip-card tier-purple">
+      <span class="card-badge">Creator Priority Pass</span>
+      <h3 class="card-title">Smartphone & Glasses Creators</h3>
+      <p class="card-text">Instant Apple Pay Escrow payouts + lock in maximum Founding creator rates for life.</p>
+      <a href="#signup" class="card-action-btn">Enroll As Founding Eye →</a>
+    </div>
+  </section>
+
+  <!-- Founding Eye VIP Registration Form -->
+  <section id="signup" class="form-wrapper">
+    <div class="mour-form-card">
+      <div class="form-header">
+        <span class="form-header-badge">⚡ MOUR VIP Early Access</span>
+        <h2>Become a Founding Eye</h2>
+        <p>Accept on-demand photo & video gigs in your city. Shoot with your smartphone or smart glasses and get paid instantly.</p>
+      </div>
+
+      <div class="quest-bonus-box">
+        <div class="quest-bonus-title">🎮 Founding Eye Quest Bonus</div>
+        <p class="quest-bonus-text">Play the Bounty Rush gig game below to unlock a $5 Digital Gift Card Voucher & boost your waitlist rank!</p>
+        <a href="#game" class="quest-bonus-btn">Play Quest ↓</a>
+      </div>
+
+      <div id="mour_form_inner" class="form-body">
+        <div class="section-tag">1. Personal & Contact Details</div>
+        <div class="field-group"><label>Full Legal Name *</label><input type="text" id="mour_full_name" placeholder="John Doe" required></div>
+        <div class="field-group"><label>Date of Birth *</label><input type="date" id="mour_dob" required></div>
+        <div class="field-group"><label>Email Address *</label><input type="email" id="mour_email" placeholder="john@example.com" required></div>
+        <div class="field-group"><label>Mobile Phone (SMS) *</label><input type="tel" id="mour_phone" placeholder="(555) 000-0000" required></div>
+
+        <div class="section-tag">2. Location & Camera Specs</div>
+        <div class="field-group"><label>City & State *</label><input type="text" id="mour_city" placeholder="Miami, FL" required></div>
+        <div class="field-group"><label>Zip Code *</label><input type="text" id="mour_zip" placeholder="33101" required></div>
+        <div class="field-group"><label>Phone / Camera Model *</label><input type="text" id="mour_device" placeholder="iPhone 15 Pro, Galaxy S24" required></div>
+        <div class="field-group"><label>Highest Video Resolution *</label>
+          <select id="mour_res">
+            <option value="4K @ 60 FPS">4K @ 60 FPS (Ultra HD)</option>
+            <option value="4K @ 30 FPS">4K @ 30 FPS</option>
+            <option value="1080p @ 60 FPS">1080p Full HD @ 60 FPS</option>
+            <option value="1080p @ 30 FPS">1080p Full HD @ 30 FPS</option>
+          </select>
+        </div>
+
+        <div class="section-tag">3. Identity Verification & Compliance</div>
+        <div class="notice-box">
+          🔒 <strong style="color: #F1F5F9;">Stripe & Apple Pay Escrow Security:</strong> You will receive an automated verification link via email/SMS to securely verify your ID before the app goes live.
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="mour_age">
+          <label for="mour_age">I certify that I am at least 18 years old and legally authorized to perform services in the U.S. *</label>
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="mour_terms">
+          <label for="mour_terms">I agree to the MOUR Terms of Service and Independent Contractor Agreement. *</label>
+        </div>
+
+        <div id="mour_error_msg" class="error-card"></div>
+
+        <button type="button" id="mour_submit_btn" class="submit-btn" onclick="submitMourApplication()">
+          Claim Founding Eye Status →
+        </button>
+      </div>
+
+      <div id="mour_success_card" class="success-card">
+        <div style="font-size: 44px; margin-bottom: 8px;">🎉</div>
+        <h3 style="color: #FFFFFF; font-size: 20px; font-weight: 800; margin-bottom: 6px;">You're On the Founding Eye List!</h3>
+        <p style="color: #94A3B8; font-size: 13.5px; line-height: 1.5;">
+          Thank you, <strong id="mour_success_name" style="color: #00E5FF;"></strong>! Your application has been registered with MOUR. You will receive an SMS alert as soon as on-demand gigs open in your area.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOUR Bounty Rush with Mobile D-Pad -->
+  <section id="game" class="game-section">
+    <h2>🎮 MOUR BOUNTY RUSH</h2>
+    <p>Simulate accepting photo/video gigs across the city. Use the touch controller or tap to navigate!</p>
+    <div class="game-box-wrap">
+      <div class="game-canvas-frame">
+        <canvas id="gameCanvas"></canvas>
+      </div>
+      
+      <div class="mobile-controls">
+        <div class="dpad-grid">
+          <button type="button" class="dpad-btn dpad-up" id="btnUp">▲</button>
+          <button type="button" class="dpad-btn dpad-left" id="btnLeft">◀</button>
+          <button type="button" class="dpad-btn dpad-down" id="btnDown">▼</button>
+          <button type="button" class="dpad-btn dpad-right" id="btnRight">▶</button>
+        </div>
+        <div class="game-action-side">
+          <button type="button" class="capture-action-btn" id="btnCapture">📸 CAPTURE</button>
+          <div class="game-hud-stat" id="hudStat">Bounties: $0</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="about-section">
+    <div class="about-tag">About MOUR APP</div>
+    <h2>The On-Demand Visual Intelligence Platform</h2>
+    <p>
+      MOUR APP (More Eyes) is a revolutionary on-demand technology platform that instantly connects you with local independent photographers and smart-glasses creators when you need real-time visual media.
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>© 2026 MOUR APP LLC • All Rights Reserved</p>
+  </footer>
+
+  <script>
+    // Radar
+    (function initRadar() {
+      const canvas = document.getElementById('radarCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let angle = 0;
+      function draw() {
+        ctx.clearRect(0, 0, 280, 280);
+        const cx = 140, cy = 140, r = 100;
+        ctx.strokeStyle = 'rgba(0, 229, 255, 0.2)';
+        ctx.lineWidth = 1;
+        [30, 65, 100].forEach(rad => { ctx.beginPath(); ctx.arc(cx, cy, rad, 0, Math.PI * 2); ctx.stroke(); });
+        ctx.beginPath(); ctx.moveTo(cx - r, cy); ctx.lineTo(cx + r, cy); ctx.moveTo(cx, cy - r); ctx.lineTo(cx, cy + r); ctx.stroke();
+        ctx.save(); ctx.translate(cx, cy); ctx.rotate(angle);
+        const grad = ctx.createLinearGradient(0, 0, r, 0);
+        grad.addColorStop(0, 'rgba(0, 229, 255, 0.45)'); grad.addColorStop(1, 'rgba(0, 229, 255, 0)');
+        ctx.fillStyle = grad; ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, r, -0.4, 0); ctx.closePath(); ctx.fill();
+        ctx.restore();
+        const dots = [{x: cx + 35, y: cy - 25, c: '#00E5FF'}, {x: cx - 40, y: cy + 20, c: '#FBBF24'}, {x: cx + 45, y: cy + 35, c: '#10B981'}];
+        dots.forEach(d => { ctx.fillStyle = d.c; ctx.beginPath(); ctx.arc(d.x, d.y, 3, 0, Math.PI * 2); ctx.fill(); });
+        angle += 0.035;
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    // Mobile Bounty Rush Game Engine
+    (function initMobileBountyGame() {
+      const canvas = document.getElementById('gameCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const hudStat = document.getElementById('hudStat');
+
+      let w, h;
+      function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        w = rect.width;
+        h = rect.height;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+      }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      let player = { x: 50, y: 120, vx: 0, vy: 0, speed: 3.5, r: 12 };
+      let bounties = [
+        { x: 180, y: 80, r: 14, reward: 35, title: "Skyline 4K" },
+        { x: 280, y: 160, r: 14, reward: 45, title: "Ocean Dr" }
+      ];
+      let totalEarned = 0;
+
+      function render() {
+        ctx.fillStyle = '#020617';
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.strokeStyle = '#0F1E36';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < w; x += 30) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+        for (let y = 0; y < h; y += 30) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+        bounties.forEach((b) => {
+          ctx.fillStyle = '#F59E0B';
+          ctx.beginPath();
+          ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#000';
+          ctx.font = 'bold 9px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(`$${b.reward}`, b.x, b.y);
+        });
+
+        player.x += player.vx;
+        player.y += player.vy;
+        player.x = Math.max(player.r, Math.min(w - player.r, player.x));
+        player.y = Math.max(player.r, Math.min(h - player.r, player.y));
+
+        ctx.fillStyle = '#00E5FF';
+        ctx.beginPath();
+        ctx.arc(player.x, player.y, player.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#030712';
+        ctx.font = 'bold 8px sans-serif';
+        ctx.fillText('EYE', player.x, player.y);
+
+        bounties.forEach((b, idx) => {
+          if (Math.hypot(player.x - b.x, player.y - b.y) < player.r + b.r + 6) {
+            claimBounty(idx);
+          }
+        });
+
+        requestAnimationFrame(render);
+      }
+      render();
+
+      function claimBounty(idx) {
+        totalEarned += bounties[idx].reward;
+        hudStat.textContent = `Bounties: $${totalEarned}`;
+        bounties[idx].x = Math.random() * (w - 60) + 30;
+        bounties[idx].y = Math.random() * (h - 60) + 30;
+      }
+
+      canvas.addEventListener('pointerdown', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        player.x = e.clientX - rect.left;
+        player.y = e.clientY - rect.top;
+      });
+
+      function setupDpad(btnId, vx, vy) {
+        const el = document.getElementById(btnId);
+        if (!el) return;
+        const startMove = (e) => { e.preventDefault(); player.vx = vx * player.speed; player.vy = vy * player.speed; };
+        const stopMove = (e) => { e.preventDefault(); player.vx = 0; player.vy = 0; };
+        el.addEventListener('pointerdown', startMove);
+        el.addEventListener('pointerup', stopMove);
+        el.addEventListener('pointercancel', stopMove);
+      }
+      setupDpad('btnUp', 0, -1);
+      setupDpad('btnDown', 0, 1);
+      setupDpad('btnLeft', -1, 0);
+      setupDpad('btnRight', 1, 0);
+
+      document.getElementById('btnCapture').addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        let closest = 0;
+        let minDist = 9999;
+        bounties.forEach((b, i) => {
+          const d = Math.hypot(player.x - b.x, player.y - b.y);
+          if (d < minDist) { minDist = d; closest = i; }
+        });
+        if (minDist < 60) claimBounty(closest);
+      });
+    })();
+
+    // Formspree API
+    async function submitMourApplication() {
+      const btn = document.getElementById('mour_submit_btn');
+      const errBox = document.getElementById('mour_error_msg');
+      const formBox = document.getElementById('mour_form_inner');
+      const successBox = document.getElementById('mour_success_card');
+      const name = document.getElementById('mour_full_name').value.trim();
+      const dob = document.getElementById('mour_dob').value;
+      const email = document.getElementById('mour_email').value.trim();
+      const phone = document.getElementById('mour_phone').value.trim();
+      const city = document.getElementById('mour_city').value.trim();
+      const zip = document.getElementById('mour_zip').value.trim();
+      const device = document.getElementById('mour_device').value.trim();
+      const res = document.getElementById('mour_res').value;
+      const age = document.getElementById('mour_age').checked;
+      const terms = document.getElementById('mour_terms').checked;
+
+      errBox.style.display = 'none';
+      if (!name || !dob || !email || !phone || !city || !zip || !device) {
+        errBox.textContent = "Please fill out all required fields.";
+        errBox.style.display = 'block';
+        return;
+      }
+      if (!age || !terms) {
+        errBox.textContent = "Please agree to the age requirement and terms.";
+        errBox.style.display = 'block';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = '⏳ Submitting...';
+
+      try {
+        const resObj = await fetch('https://formspree.io/f/mbgjgdoj', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ Full_Name: name, Date_of_Birth: dob, email: email, Mobile_Phone: phone, City_State: city, Zip_Code: zip, Device: device, Resolution: res, Role: "Founding Eye" })
+        });
+        if (resObj.ok) {
+          document.getElementById('mour_success_name').textContent = name;
+          formBox.style.display = 'none';
+          successBox.style.display = 'block';
+        } else {
+          errBox.textContent = "Submission could not be completed. Please try again.";
+          errBox.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'Claim Founding Eye Status →';
+        }
+      } catch (err) {
+        errBox.textContent = "Connection error. Please check your network.";
+        errBox.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Claim Founding Eye Status →';
+      }
+    }
+  </script>
+</body>
+</html>

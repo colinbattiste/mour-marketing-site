@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth <= 768) {
+    window.location.replace("mobile.html");
+  }
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOUR APP — On-Demand Real-Time Visual Media | Founding Eye VIP Early Access</title>
+  <meta name="description" content="MOUR APP (More Eyes) instantly connects you with local independent photographers and smart-glasses creators for real-time visual media with Apple Pay escrow protection." />
+  
+  <!-- Cutout Smart Glasses Favicon -->
+  <link rel="icon" type="image/png" href="assets/mour-glasses-logo.png" />
+  
+  <!-- Google Fonts: Inter & Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- Top Scroll Progress Bar -->
+  <div id="scroll-progress"></div>
+
+  <!-- Continuous Opaque 3D Spinning Earth & Center Radar Scanning Canvas -->
+  <canvas id="mour-scroll-canvas"></canvas>
+
+  <!-- Ambient Glow Orbs -->
+  <div class="cyber-glow-orb orb-1"></div>
+  <div class="cyber-glow-orb orb-2"></div>
+  <div class="cyber-glow-orb orb-3"></div>
+
+  <!-- ==========================================================================
+       SITE HEADER (FEATURING CUTOUT GLASSES LOGO)
+       ========================================================================== -->
+  <header class="site-header">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="#" class="brand-wrapper" title="MOUR APP">
+          <!-- Cutout Smart Glasses Logo -->
+          <img src="assets/mour-glasses-logo.png" alt="MOUR Smart Glasses Logo" class="brand-glasses-logo" />
+          <span class="brand-title">MOUR APP</span>
+          <span class="brand-badge">VIP 2.0</span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#waitlist" class="nav-link">Founding Eye</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#calculator" class="nav-link">Earnings</a></li>
+          <li><a href="#services" class="nav-link">Services</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="#waitlist" class="btn-nav-waitlist">
+            Claim VIP Status →
+          </a>
+          <button class="nav-mobile-toggle" aria-label="Toggle Navigation">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Live Network Activity Ticker -->
+  <div class="network-ticker">
+    <div class="ticker-track">
+      <div class="ticker-item">
+        <span class="status-dot-live"></span> <strong>NETWORK STATUS:</strong> ALL SYSTEMS ONLINE
+      </div>
+      <div class="ticker-item">⚡ 58 Active Eyes in Miami, FL</div>
+      <div class="ticker-item">🔒 Apple Pay Escrow Paid Today: $1,840.00</div>
+      <div class="ticker-item">📡 Real-Time DMV Identity Verification: ACTIVE</div>
+      <div class="ticker-item">⏱️ Average Bounty Response Time: 2.1 minutes</div>
+      <div class="ticker-item">🕶️ Smart-Glasses Optical Telemetry: 4K 60FPS OK</div>
+      <!-- Loop duplicate -->
+      <div class="ticker-item">
+        <span class="status-dot-live"></span> <strong>NETWORK STATUS:</strong> ALL SYSTEMS ONLINE
+      </div>
+      <div class="ticker-item">⚡ 58 Active Eyes in Miami, FL</div>
+      <div class="ticker-item">🔒 Apple Pay Escrow Paid Today: $1,840.00</div>
+      <div class="ticker-item">📡 Real-Time DMV Identity Verification: ACTIVE</div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       HERO & VIP EARLY ACCESS HOMEPAGE SECTION (PLACED RIGHT AT THE TOP)
+       ========================================================================== -->
+  <section class="hero-section" id="waitlist" style="min-height: auto; padding: 70px 0 90px;">
+    
+    <!-- Background Aerial SVG -->
+    <div class="hero-parallax-bg">
+      <img src="assets/aerial-hero.svg" alt="MOUR Aerial City Grid" class="hero-aerial-img" />
+    </div>
+    <div class="hero-vignette"></div>
+
+    <!-- ==========================================================================
+         FOUNDING EYES VIP ENROLLMENT CALL-TO-ACTION POP-UP ADVERTISEMENTS
+         Emphasizes exclusive early enrollment, 100% acceptance & first gig bonuses
+         ========================================================================== -->
+    <div class="vip-ads-wrapper">
+      <div class="vip-ad-popup ad-pos-tl" onclick="activateFoundingEyePromo('Founding Eyes Early Enrollment')">
+        <div class="ad-popup-badge badge-cyan">
+          <span class="ad-pulse-dot"></span> EXCLUSIVE VIP ENROLLMENT
+        </div>
+        <h4 class="ad-popup-title">Founding Eyes Enrollment Open</h4>
+        <p class="ad-popup-desc">
+          Right now is our VIP enrollment! We are accepting <strong>all Founding Eyes</strong> onto our waitlist today.
+        </p>
+        <div class="ad-popup-cta">
+          <span>Claim Founding Eye Status</span>
+          <span class="ad-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="vip-ad-popup ad-pos-tr" onclick="activateFoundingEyePromo('First Gig Escrow Cash Bonus')">
+        <div class="ad-popup-badge badge-gold">
+          💰 FIRST GIG BONUSES
+        </div>
+        <h4 class="ad-popup-title">Bonuses On Your First Gigs</h4>
+        <p class="ad-popup-desc">
+          Founding Eye status unlocks <strong>cash escrow bonuses</strong> on your first completed photo & video gigs.
+        </p>
+        <div class="ad-popup-cta cta-gold">
+          <span>Unlock Gig Bonuses</span>
+          <span class="ad-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="vip-ad-popup ad-pos-bl" onclick="activateFoundingEyePromo('100% Waitlist Acceptance')">
+        <div class="ad-popup-badge badge-green">
+          🎟️ 100% ACCEPTANCE RATE
+        </div>
+        <h4 class="ad-popup-title">All Founding Eyes Accepted</h4>
+        <p class="ad-popup-desc">
+          Guaranteed entry. Join our waitlist now to lock in your official <strong>Founding Eye status</strong>.
+        </p>
+        <div class="ad-popup-cta cta-green">
+          <span>Join Waitlist Guaranteed</span>
+          <span class="ad-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="vip-ad-popup ad-pos-br" onclick="activateFoundingEyePromo('Creator Tier 1 Escrow Priority')">
+        <div class="ad-popup-badge badge-purple">
+          🕶️ CREATOR PRIORITY PASS
+        </div>
+        <h4 class="ad-popup-title">Smartphone & Glasses Creators</h4>
+        <p class="ad-popup-desc">
+          Instant <strong>Apple Pay Escrow</strong> payouts + lock in maximum Founding creator rates.
+        </p>
+        <div class="ad-popup-cta cta-purple">
+          <span>Enroll As Founding Eye</span>
+          <span class="ad-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tactical Corner Brackets -->
+    <div class="hud-bracket bracket-tl"></div>
+    <div class="hud-bracket bracket-tr"></div>
+    <div class="hud-bracket bracket-bl"></div>
+    <div class="hud-bracket bracket-br"></div>
+
+    <div class="container">
+      
+      <!-- Main Homepage Premiere Header -->
+      <div class="hero-content hero-premiere-container" style="margin-bottom: 36px;">
+        
+        <!-- Theatrical Premiere Lighting Behind Title -->
+        <div class="hero-title-theatrical-glow"></div>
+        <div class="hero-beam-flare"></div>
+
+        <div class="hero-premiere-pill">
+          ✨ WORLD PREMIERE • VIP EARLY ENROLLMENT
+        </div>
+
+        <div class="hero-title-wrapper">
+          <h1 class="hero-title hero-title-premiere">
+            <span class="title-glow-premiere">MOUR APP</span>
+          </h1>
+          <div class="hero-phonetic-badge">MORE APP • ON-DEMAND VISUAL CREATOR NETWORK</div>
+        </div>
+
+        <div class="hero-subtitle" style="margin-bottom: 14px;">
+          SIGN UP NOW TO BE ON OUR WAITLIST TO BE AN "EYE"
+        </div>
+
+        <p class="hero-description" style="margin-bottom: 0;">
+          MOUR APP connects you instantly with local independent photographers and smart-glasses creators for real-time, authentic visual media. Shoot on-demand gigs with your smartphone or smart glasses and get paid instantly via Apple Pay escrow.
+        </p>
+      </div>
+
+      <!-- MOUR VIP EARLY ACCESS WAITLIST CARD (FRONT & CENTER AT THE TOP) -->
+      <div class="waitlist-card" style="margin-top: 10px;">
+
+        <div class="waitlist-header">
+          <span class="waitlist-vip-tag">⚡ MOUR VIP Early Access</span>
+          <h2 class="waitlist-title">Become a Founding Eye</h2>
+          <p class="waitlist-desc">
+            Accept on-demand photo & video gigs in your city. Shoot with your smartphone or smart glasses and get paid instantly.
+          </p>
+        </div>
+
+        <!-- CENTER-ALIGNED QUEST BONUS BANNER WITH YELLOW PLAY BUTTON UNDERNEATH -->
+        <div class="scavenger-perk-banner-centered" id="zelda-status-banner">
+          <div class="scavenger-perk-text-centered">
+            🎮 <strong>Founding Eye Quest Bonus:</strong> Play the Bounty Rush gig game at the bottom of the page to unlock a $5 Digital Gift Card Voucher & boost your waitlist queue rank!
+          </div>
+          <a href="#game" class="btn-play-quest-yellow">
+            Play Quest →
+          </a>
+        </div>
+
+        <!-- Multi-Step Interactive Form -->
+        <div id="mour_form_inner" class="waitlist-body">
+          
+          <div class="form-step-title">
+            <span>1. Personal & Contact Details</span>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="mour_full_name">Full Legal Name *</label>
+              <input type="text" id="mour_full_name" class="form-input" placeholder="e.g. Johnathan Doe" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mour_dob">Date of Birth *</label>
+              <input type="date" id="mour_dob" class="form-input" required />
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="mour_email">Email Address *</label>
+              <input type="email" id="mour_email" class="form-input" placeholder="john@example.com" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mour_phone">Mobile Phone (SMS) *</label>
+              <input type="tel" id="mour_phone" class="form-input" placeholder="(555) 000-0000" required />
+            </div>
+          </div>
+
+          <div class="form-step-title" style="margin-top: 8px;">
+            <span>2. Location & Camera Specs</span>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="mour_city">City & State *</label>
+              <input type="text" id="mour_city" class="form-input" placeholder="e.g. Miami, FL" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mour_device">Phone / Camera Model *</label>
+              <input type="text" id="mour_device" class="form-input" placeholder="iPhone 15 Pro, Galaxy S24, Meta Ray-Ban" required />
+            </div>
+          </div>
+
+          <div class="form-step-title" style="margin-top: 8px;">
+            <span>3. Identity Verification & Perks</span>
+          </div>
+
+          <div class="stripe-security-notice">
+            <span>🔒</span>
+            <div>
+              <strong style="color: #E2E8F0;">Stripe & Apple Pay Escrow Security:</strong> 
+              You will receive a automated verification link via email/SMS to securely verify your ID before the app goes live.
+            </div>
+          </div>
+
+          <div class="checkbox-row" style="margin-top: 4px;">
+            <input type="checkbox" id="mour_age" />
+            <label for="mour_age" class="checkbox-label">
+              I certify that I am at least 18 years old and legally authorized to perform services in the U.S. *
+            </label>
+          </div>
+
+          <div class="checkbox-row">
+            <input type="checkbox" id="mour_terms" />
+            <label for="mour_terms" class="checkbox-label">
+              I agree to the MOUR Terms of Service and Independent Contractor Agreement. *
+            </label>
+          </div>
+
+          <div id="mour_error_msg" class="error-alert-box"></div>
+
+          <button type="button" id="mour_submit_btn" class="btn-submit-waitlist" onclick="submitMourApplication()">
+            Claim Founding Eye Status →
+          </button>
+        </div>
+
+        <!-- Success Screen & Holographic Pass -->
+        <div id="mour_success_card" class="waitlist-success-card">
+          <div class="success-confetti-icon">🎉</div>
+          <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin-bottom: 8px;">
+            You're On the Founding Eye VIP List!
+          </h3>
+          <p style="color: var(--text-secondary); font-size: 15px; max-width: 480px; margin: 0 auto 24px; line-height: 1.6;">
+            Congratulations, <strong id="mour_success_name" style="color: var(--accent-cyan);"></strong>! Your Founding Eye application is locked in. You will receive an SMS alert as soon as on-demand gigs open in your area.
+          </p>
+
+          <!-- Holographic Creator Badge with Cutout Glasses -->
+          <div class="holographic-pass">
+            <div class="pass-header">
+              <img src="assets/mour-glasses-logo.png" alt="MOUR Glasses" style="height: 22px; width: auto;" />
+              <span class="pass-id">ID #00142-FE</span>
+            </div>
+            <div class="pass-name" id="pass-holder-name">Founding Eye Creator</div>
+            <div style="font-size: 12px; color: var(--accent-cyan); font-family: var(--font-mono); font-weight: 700;">
+              STATUS: FOUNDING EYE VIP • TIER 1 CREATOR
+            </div>
+            <div class="pass-details">
+              <div>
+                <span>ASSIGNED TERRITORY:</span>
+                <strong id="pass-holder-city">Miami, FL</strong>
+              </div>
+              <div>
+                <span>PAYOUT CHANNEL:</span>
+                <strong>Apple Pay Escrow</strong>
+              </div>
+            </div>
+          </div>
+
+          <p style="font-size: 13px; color: var(--accent-gold); font-weight: 600;">
+            🔥 Tip: Share your creator invite with other photographers to boost your priority ranking!
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       ABOUT MOUR SECTION & 3D CAMERA HUD VIEWPORT
+       ========================================================================== -->
+  <section class="about-section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        
+        <div class="about-content">
+          <span class="section-tag">About MOUR APP</span>
+          <h2 class="section-heading">
+            The On-Demand <span>Visual Intelligence</span> Platform
+          </h2>
+          <p class="about-text">
+            MOUR APP (More Eyes) is a revolutionary on-demand technology platform that instantly connects you with local independent photographers and smart-glasses creators when you need real-time visual media.
+          </p>
+          <p class="about-text">
+            Whether you're a news agency covering breaking events, a real estate firm inspecting properties, or an individual wanting an authentic live view of your favorite location, MOUR APP delivers authentic, timestamped visual content exactly when you need it.
+          </p>
+
+          <div class="about-features-list">
+            <div class="about-feature-item">
+              <div class="feature-check-icon">✓</div>
+              <span>Instant Apple Pay Escrow protection & zero payment risk</span>
+            </div>
+            <div class="about-feature-item">
+              <div class="feature-check-icon">✓</div>
+              <span>Real-time DMV biometric identity verification for trusted creators</span>
+            </div>
+            <div class="about-feature-item">
+              <div class="feature-check-icon">✓</div>
+              <span>Supports 4K video, high-res photos, 360° panoramas & live streams</span>
+            </div>
+            <div class="about-feature-item">
+              <div class="feature-check-icon">✓</div>
+              <span>GPS geo-fenced bounties with automated instant payouts</span>
+            </div>
+          </div>
+
+          <a href="#waitlist" class="btn-primary-glow" style="padding: 12px 24px; font-size: 14px;">
+            Join The Creator Network →
+          </a>
+        </div>
+
+        <!-- 3D Camera HUD Mockup Stage -->
+        <div class="camera-hud-stage">
+          <div class="camera-hud-card">
+            <img src="assets/camera-hud.jpg" alt="MOUR Camera Viewfinder HUD" class="hud-viewport-img" />
+            
+            <!-- Live Interactive HUD Overlays -->
+            <div class="hud-glass-layer">
+              <div class="hud-top-bar">
+                <div class="rec-indicator">
+                  <span class="rec-dot"></span>
+                  <span>REC</span>
+                  <span id="hud-rec-timer">00:14:28</span>
+                </div>
+                <div style="color: var(--accent-cyan);">4K 60FPS • ISO 120</div>
+                <div>BAT 94% ⚡</div>
+              </div>
+
+              <div class="hud-center-crosshair">
+                <div class="reticle-ring"></div>
+                <div style="position: absolute; top: 50%; left: 50%; width: 6px; height: 6px; background: var(--accent-cyan); border-radius: 50%; transform: translate(-50%, -50%);"></div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                <div class="hud-bounty-chip">
+                  <span>💰 ESCROW BOUNTY:</span> $45.00
+                </div>
+                <div id="hud-live-coord" style="font-family: var(--font-mono); font-size: 11px; color: var(--accent-cyan); background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 4px;">
+                  X: 50.0% | Y: 50.0%
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       INTERACTIVE CREATOR EARNINGS CALCULATOR
+       ========================================================================== -->
+  <section class="calculator-section" id="calculator">
+    <div class="container">
+      <div class="calculator-card">
+        <div class="calculator-grid">
+          
+          <div>
+            <span class="section-tag">Interactive Calculator</span>
+            <h2 class="section-heading" style="font-size: 2.2rem; margin-bottom: 14px;">
+              Estimate Your <span>Founding Eye</span> Earnings
+            </h2>
+            <p style="color: var(--text-secondary); font-size: 15px; margin-bottom: 28px;">
+              See how much you can earn taking 15-minute quick visual capture gigs on your smartphone or smart glasses around your neighborhood or daily commute.
+            </p>
+
+            <div class="calc-control">
+              <div class="calc-label-row">
+                <span class="calc-title">Gigs completed per week:</span>
+                <span class="calc-val-pill" id="calc-gigs-val">5 gigs / wk</span>
+              </div>
+              <input type="range" min="1" max="30" value="5" id="calc-gigs" class="calc-range" />
+            </div>
+
+            <div class="calc-control">
+              <div class="calc-label-row">
+                <span class="calc-title">Average bounty per gig:</span>
+                <span class="calc-val-pill" id="calc-bounty-val">$50 / gig</span>
+              </div>
+              <input type="range" min="25" max="150" step="5" value="50" id="calc-bounty" class="calc-range" />
+            </div>
+          </div>
+
+          <div class="earnings-display-box">
+            <div style="font-size: 12px; font-family: var(--font-mono); color: var(--accent-cyan); letter-spacing: 0.08em; text-transform: uppercase;">
+              Projected Earnings
+            </div>
+            <div class="earnings-number" id="calc-weekly-earnings">$250</div>
+            <div class="earnings-subtext">Estimated Weekly Payout</div>
+
+            <div style="border-top: 1px dashed var(--border-subtle); padding-top: 16px; margin-top: 16px;">
+              <div style="font-size: 13px; color: var(--text-secondary);">Monthly Estimate:</div>
+              <div style="font-size: 26px; font-weight: 800; color: var(--accent-gold); font-family: var(--font-mono);" id="calc-monthly-earnings">
+                $1,083
+              </div>
+            </div>
+
+            <a href="#waitlist" class="btn-primary-glow" style="width: 100%; justify-content: center; margin-top: 22px; padding: 12px;">
+              Lock In Early VIP Rate →
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SERVICES SECTION (3D PARALLAX CARDS)
+       ========================================================================== -->
+  <section class="services-section" id="services">
+    <div class="container">
+      
+      <div class="services-header">
+        <span class="section-tag">Core Services</span>
+        <h2 class="section-heading">
+          Built For <span>Speed, Trust, & Precision</span>
+        </h2>
+        <p style="color: var(--text-secondary); font-size: 16px;">
+          Experience how MOUR APP connects visual requesters with verified local creators across high-speed mobile networks.
+        </p>
+      </div>
+
+      <div class="services-grid">
+        
+        <!-- Service Card 1 -->
+        <div class="service-card">
+          <div class="service-img-wrapper">
+            <img src="assets/service-capture.png" alt="Real-Time Photo and Video Capture" class="service-img" />
+            <div class="service-badge">4K ULTRA HD</div>
+          </div>
+          <div class="service-content">
+            <h3 class="service-title">Real-Time Photo & Video Capture</h3>
+            <p class="service-desc">
+              Request instant photos, 4K video, live streams, or 360° panoramas from verified local creators. Post your location-based request with your desired bounty amount and media format, and receive authentic, timestamped visual content delivered directly to your device.
+            </p>
+            <div class="service-perk-row">
+              <span>✓ Timestamped Geotags</span>
+              <span style="margin-left: auto;">⚡ 2.1m Avg Response</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service Card 2 -->
+        <div class="service-card">
+          <div class="service-img-wrapper">
+            <img src="assets/service-escrow.png" alt="Secure Escrow and Identity Verification" class="service-img" />
+            <div class="service-badge">APPLE PAY ESCROW</div>
+          </div>
+          <div class="service-content">
+            <h3 class="service-title">Secure Escrow & Identity Verification</h3>
+            <p class="service-desc">
+              Experience worry-free transactions with Apple Pay escrow protection and real-time DMV identity verification. Every creator on MOUR APP is verified, ensuring you're working with trusted professionals who deliver quality content with complete transparency and security.
+            </p>
+            <div class="service-perk-row">
+              <span>✓ 100% DMV Verified</span>
+              <span style="margin-left: auto;">🔒 Escrow Protected</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service Card 3 -->
+        <div class="service-card">
+          <div class="service-img-wrapper">
+            <img src="assets/service-network.png" alt="Location-Based Creator Network" class="service-img" />
+            <div class="service-badge">SMART-GLASSES GPS</div>
+          </div>
+          <div class="service-content">
+            <h3 class="service-title">Location-Based Creator Network</h3>
+            <p class="service-desc">
+              Access a community of independent photographers and smart-glasses creators nearby your target location. MOUR APP's intelligent matching system connects you with the right visual creator for your specific needs, whether for news coverage, real estate inspection, or personal projects.
+            </p>
+            <div class="service-perk-row">
+              <span>✓ Smart-Glasses Ready</span>
+              <span style="margin-left: auto;">📍 GPS Radius Match</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       CONTACT US & DIRECT COMMUNICATIONS (CENTER-ALIGNED VERTICAL STACK)
+       ========================================================================== -->
+  <section class="contact-section" id="contact">
+    <div class="container">
+      
+      <div class="contact-stack">
+        
+        <!-- Contact Us (Top Part, Centered) -->
+        <div class="contact-info-center">
+          <span class="section-tag">Direct Communications</span>
+          <h2 class="section-heading" style="margin-bottom: 12px;">Contact Us</h2>
+          <p style="color: var(--text-secondary); font-size: 15px; line-height: 1.6; max-width: 580px;">
+            Have questions regarding our enterprise waitlist, creator onboarding, or partnership opportunities? Reach out to our executive operations team.
+          </p>
+
+          <div class="contact-items-horizontal">
+            <a href="geo:8+The+Green+Suite+B%2C+Dover+De+19901" class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div class="contact-details">
+                <strong class="contact-title">CORPORATE HQ</strong>
+                <span class="contact-address-text">8 The Green Suite B, Dover DE</span>
+              </div>
+            </a>
+
+            <a href="mailto:admin@mourapp.com" class="contact-item">
+              <div class="contact-icon">✉️</div>
+              <div class="contact-details">
+                <strong class="contact-title">EMAIL US</strong>
+                <span class="contact-value-text">admin@mourapp.com</span>
+              </div>
+            </a>
+
+            <a href="tel:302-403-6808" class="contact-item">
+              <div class="contact-icon">📞</div>
+              <div class="contact-details">
+                <strong class="contact-title">TELEPHONE</strong>
+                <span class="contact-value-text">302-403-6808</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Send Us a Direct Message (Directly Underneath, Centered) -->
+        <div class="contact-form-card">
+          <h3 style="color: #fff; font-size: 20px; font-weight: 800; margin-bottom: 8px; text-align: center;">
+            Send Us a Direct Message
+          </h3>
+          <p style="color: var(--text-secondary); font-size: 13px; text-align: center; margin-bottom: 22px;">
+            Fill out the form below and an executive representative will respond promptly.
+          </p>
+
+          <form onsubmit="event.preventDefault(); alert('Thank you for contacting MOUR APP. An executive representative will respond shortly.');">
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label class="form-label">Your Name</label>
+              <input type="text" class="form-input" placeholder="Enter your full name" required />
+            </div>
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-input" placeholder="name@company.com" required />
+            </div>
+            <div class="form-group" style="margin-bottom: 20px;">
+              <label class="form-label">Message / Inquiry</label>
+              <textarea class="form-input" rows="4" placeholder="How can MOUR APP assist your organization?" required style="resize: vertical;"></textarea>
+            </div>
+            <button type="submit" class="btn-primary-glow" style="width: 100%; justify-content: center;">
+              Send Message →
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       DEDICATED VIDEO GAME SECTION: "MOUR BOUNTY RUSH" (THE 3-MINUTE GIG RACE)
+       Now Placed All the Way at the End Under Contact Us
+       ========================================================================== -->
+  <section class="game-section" id="game" style="padding: 60px 0 100px;">
+    <div class="container">
+      
+      <div style="text-align: center; max-width: 720px; margin: 0 auto 30px;">
+        <span class="section-tag" style="color: var(--accent-gold);">🎮 The Gig Rush Challenge</span>
+        <h2 class="section-heading" style="line-height: 1.25;">
+          MOUR BOUNTY RUSH<br />
+          <span style="display: block; margin-top: 8px; font-size: 0.8em; color: var(--accent-gold);">The 1-Minute Gig Race</span>
+        </h2>
+        <p style="color: var(--text-secondary); font-size: 15px; line-height: 1.6;">
+          You're competing against 3 rival freelance creators across city streets, blocks, and corners! Race to reach gigs first: snap quick <strong>$30 photos</strong> or sprint across town to claim <strong>$200 Breaking News jackpots</strong>. Highest total money when the 60-second buzzer sounds wins the <strong>$5 Gift Card Voucher</strong>!
+        </p>
+      </div>
+
+      <!-- Game Arcade Cabinet -->
+      <div class="bounty-game-wrapper">
+        
+        <!-- Header & Live Leaderboard: ALL WORDING CENTERED WITH TITLE IN THE MIDDLE -->
+        <div class="bounty-scoreboard-bar bounty-scoreboard-center">
+          
+          <!-- Middle Top Header Title -->
+          <div class="bounty-top-title-row">
+            <div class="bounty-title-center-badge">
+              <img src="assets/mour-glasses-logo.png" alt="MOUR Glasses" class="bounty-glasses-icon" />
+              <span class="bounty-title-text">MOUR BOUNTY RUSH</span>
+              <span class="bounty-blitz-badge">⚡ 1-MIN BLITZ</span>
+            </div>
+          </div>
+
+          <!-- Real-Time Scoreboard Table (Center-Aligned) -->
+          <div id="bounty-live-leaderboard" class="lb-container lb-container-center"></div>
+
+          <!-- Centered Arcade Buttons -->
+          <div class="bounty-actions-center">
+            <button type="button" class="btn-arcade" id="btn-bounty-audio" onclick="toggleBountyAudio()">
+              🔊 Audio: ON
+            </button>
+            <button type="button" class="btn-arcade" onclick="resetBountyGame()">
+              🔄 Play Again
+            </button>
+          </div>
+        </div>
+
+        <!-- Canvas Screen Container -->
+        <div style="position: relative; width: 100%; background: #020617;">
+          <canvas id="bounty-canvas" width="720" height="440"></canvas>
+          <div class="crt-scanlines"></div>
+
+          <!-- Game Over Modal Overlay -->
+          <div id="bounty-game-over-modal" class="bounty-modal-overlay">
+            <div class="bounty-modal-card">
+              <div style="font-size: 46px; margin-bottom: 6px;">🏆</div>
+              <h3 id="bounty-game-over-title" style="font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 10px;">
+                TIME EXPIRED!
+              </h3>
+              <p id="bounty-game-over-desc" style="color: var(--text-secondary); font-size: 14px; line-height: 1.5; margin-bottom: 20px;">
+                Calculating final payouts...
+              </p>
+
+              <!-- Unlockable Voucher Ticket -->
+              <div id="bounty-voucher-card" class="gift-card-ticket" style="display: none; margin: 16px 0;">
+                <div style="font-size: 11px; font-family: var(--font-mono); color: var(--accent-gold); text-transform: uppercase;">
+                  ★ $5 Digital Gift Card Voucher Code ★
+                </div>
+                <div class="voucher-code-display">MOUR-FOUNDER-5GIFT</div>
+                <button type="button" class="btn-copy-voucher" onclick="copyVoucherCode()">
+                  Copy Voucher Code
+                </button>
+              </div>
+
+              <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                <button type="button" class="btn-primary-glow" style="padding: 12px 24px; font-size: 13px;" onclick="resetBountyGame()">
+                  Play Again 🔄
+                </button>
+                <a href="#waitlist" class="btn-secondary-ghost" style="padding: 12px 20px; font-size: 13px;">
+                  Jump to Waitlist ↑
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Touch Virtual Controls -->
+        <div class="virtual-touch-controls">
+          <div class="dpad-grid">
+            <div></div>
+            <button class="btn-touch-dpad" id="btn-dpad-up">▲</button>
+            <div></div>
+            <button class="btn-touch-dpad" id="btn-dpad-left">◀</button>
+            <div style="background: #091226; border-radius: 4px;"></div>
+            <button class="btn-touch-dpad" id="btn-dpad-right">▶</button>
+            <div></div>
+            <button class="btn-touch-dpad" id="btn-dpad-down">▼</button>
+            <div></div>
+          </div>
+
+          <button class="btn-touch-action" id="btn-dpad-action">
+            SPRINT<br/>⚡
+          </button>
+        </div>
+
+        <!-- Arcade Bottom Status Legend (Center-Aligned) -->
+        <div class="arcade-footer arcade-footer-center">
+          <div class="arcade-instructions" style="text-align: center;">
+            🕹️ Movement: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or <kbd>Arrow Keys</kbd> &nbsp;|&nbsp; 
+            Sprint: <kbd>SHIFT</kbd> or <kbd>SPACE</kbd> &nbsp;|&nbsp; Mute: <kbd>M</kbd>
+          </div>
+
+          <div class="arcade-legend-center">
+            <span style="color: #10B981;">● $30-$45 Photo</span>
+            <span style="color: #00E5FF;">● $65-$110 4K Video</span>
+            <span style="color: #FACC15;">● $150-$250 Breaking News</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FOOTER (FEATURING CUTOUT GLASSES LOGO)
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <img src="assets/mour-glasses-logo.png" alt="MOUR Glasses Logo" class="footer-glasses-logo" />
+          <div>
+            <div style="font-weight: 800; color: #fff;">MOUR APP LLC</div>
+            <div style="font-size: 11px; color: var(--text-muted);">© 2026 MOUR APP LLC. All rights reserved.</div>
+          </div>
+        </div>
+
+        <ul class="footer-links">
+          <li><a href="#waitlist">Founding Eye</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#calculator">Earnings</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#game">Bounty Rush</a></li>
+        </ul>
+
+        <div style="display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; color: var(--accent-green);">
+          <span class="status-dot-live"></span>
+          <span>Apple Pay Escrow Active • 99.98% Uptime</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/zelda-game.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
