@@ -21,6 +21,60 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .legal-link {
+      color: #00E5FF;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      font-weight: 600;
+    }
+    .legal-link:hover,
+    .legal-link:focus {
+      color: #7AF6FF;
+    }
+    .sms-consent-block {
+      margin: 10px 0 4px;
+      padding: 12px 14px;
+      background: rgba(0, 229, 255, 0.05);
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      border-radius: 10px;
+    }
+    .sms-consent-block .checkbox-row,
+    .waitlist-body .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .sms-consent-block input[type="checkbox"],
+    .waitlist-body .checkbox-row input[type="checkbox"] {
+      width: 18px;
+      min-width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      accent-color: #00E5FF;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .sms-consent-block .checkbox-label,
+    .privacy-near-terms {
+      font-size: 12px;
+      line-height: 1.55;
+      color: #94A3B8;
+    }
+    .privacy-near-terms {
+      margin: 2px 0 10px 28px;
+    }
+    .form-legal-footer {
+      text-align: center;
+      font-size: 12px;
+      color: #64748B;
+      margin: 6px 0 14px;
+    }
+    .footer-legal-sep {
+      color: #475569;
+      margin: 0 8px;
+    }
+  </style>
 </head>
 <body>
 
@@ -251,6 +305,18 @@
             </div>
           </div>
 
+          <div class="sms-consent-block">
+            <div class="checkbox-row" style="margin: 0;">
+              <input type="checkbox" id="mour_sms" />
+              <label for="mour_sms" class="checkbox-label">
+                I consent to receive SMS messages from MOUR APP at the number provided, including waitlist updates, gig alerts, and account notifications. Message frequency varies. Message and data rates may apply. Reply STOP to unsubscribe and HELP for help. Consent is not a condition of purchase. See our
+                <a class="legal-link" href="https://colinbattiste.github.io/mour-legal/privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+                and
+                <a class="legal-link" href="https://colinbattiste.github.io/mour-legal/terms.html" target="_blank" rel="noopener noreferrer">Terms of Service</a>. *
+              </label>
+            </div>
+          </div>
+
           <div class="form-step-title" style="margin-top: 8px;">
             <span>2. Location & Camera Specs</span>
           </div>
@@ -288,15 +354,28 @@
           <div class="checkbox-row">
             <input type="checkbox" id="mour_terms" />
             <label for="mour_terms" class="checkbox-label">
-              I agree to the MOUR Terms of Service and Independent Contractor Agreement. *
+              I agree to the MOUR
+              <a class="legal-link" href="https://colinbattiste.github.io/mour-legal/terms.html" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+              and
+              <a class="legal-link" href="https://colinbattiste.github.io/mour-legal/independent-contractor-agreement.pdf" target="_blank" rel="noopener noreferrer">Independent Contractor Agreement</a>. *
             </label>
           </div>
+          <p class="privacy-near-terms">
+            View our
+            <a class="legal-link" href="https://colinbattiste.github.io/mour-legal/privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+          </p>
 
           <div id="mour_error_msg" class="error-alert-box"></div>
 
           <button type="button" id="mour_submit_btn" class="btn-submit-waitlist" onclick="submitMourApplication()">
             Claim Founding Eye Status →
           </button>
+
+          <p class="form-legal-footer">
+            <a class="legal-link" href="https://colinbattiste.github.io/mour-legal/privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+            <span class="footer-legal-sep">|</span>
+            <a class="legal-link" href="https://colinbattiste.github.io/mour-legal/terms.html" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+          </p>
         </div>
 
         <!-- Success Screen & Holographic Pass -->
@@ -778,6 +857,8 @@
           <li><a href="#services">Services</a></li>
           <li><a href="#contact">Contact</a></li>
           <li><a href="#game">Bounty Rush</a></li>
+          <li><a href="https://colinbattiste.github.io/mour-legal/privacy.html" target="_blank" rel="noopener noreferrer">Privacy</a></li>
+          <li><a href="https://colinbattiste.github.io/mour-legal/terms.html" target="_blank" rel="noopener noreferrer">Terms</a></li>
         </ul>
 
         <div style="display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; color: var(--accent-green);">
@@ -785,6 +866,11 @@
           <span>Apple Pay Escrow Active • 99.98% Uptime</span>
         </div>
       </div>
+      <p class="form-legal-footer" style="margin-top: 18px;">
+        <a class="legal-link" href="https://colinbattiste.github.io/mour-legal/privacy.html" target="_blank" rel="noopener noreferrer">Privacy</a>
+        <span class="footer-legal-sep">|</span>
+        <a class="legal-link" href="https://colinbattiste.github.io/mour-legal/terms.html" target="_blank" rel="noopener noreferrer">Terms</a>
+      </p>
     </div>
   </footer>
 
