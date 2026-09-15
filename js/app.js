@@ -490,8 +490,12 @@
       _subject: 'New MOUR Founding Eye Registration: ' + nameField.value.trim()
     };
 
+    const waitlistUrl = 'https://mour-backend.onrender.com/api/v1/eyes/waitlist';
+    const formspreeUrl = 'https://formspree.io/f/mbgjgdoj';
+
     try {
-      const response = await fetch('https://formspree.io/f/mbgjgdoj', {
+      // Primary: product DB via mour-backend (shared users / founding_eye SoT)
+      let response = await fetch(waitlistUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -502,12 +506,32 @@
 
       if (response.ok) {
         showSuccessState(nameField.value.trim(), cityField.value.trim());
+        return;
+      }
+
+      let apiErr = null;
+      try { apiErr = await response.json(); } catch (_) {}
+      console.warn('mour-backend waitlist non-OK', response.status, apiErr);
+
+      // Temporary fallback: Formspree email notify until backend path is proven
+      response = await fetch(formspreeUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        console.warn('Waitlist saved via Formspree fallback');
+        showSuccessState(nameField.value.trim(), cityField.value.trim());
       } else {
-        console.warn('Formspree returned non-200, activating VIP fallback confirmation');
+        console.warn('Formspree also non-200; showing local VIP confirmation');
         showSuccessState(nameField.value.trim(), cityField.value.trim());
       }
     } catch (err) {
-      console.warn('Network error, completing VIP registration locally:', err);
+      console.warn('Network error on waitlist submit:', err);
       showSuccessState(nameField.value.trim(), cityField.value.trim());
     }
   };
