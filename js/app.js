@@ -2,7 +2,7 @@
  * MOUR APP — Core Application Controller
  * Continuous Scroll Opaque 3D Globe with Active Radar Sweep Animation
  * Earth spins dynamically when scrolling, rotates smoothly when idle
- * Formspree Waitlist Integration, Earnings Calculator, 3D Tilt Viewfinder
+ * Founding Eye waitlist (mour-backend API), Earnings Calculator, 3D Tilt Viewfinder
  */
 
 (function() {
@@ -437,8 +437,41 @@
   }
 
   // ==========================================================================
-  // FOUNDING EYE VIP WAITLIST FORM SUBMISSION (UPDATED FIELDS)
+  // FOUNDING EYE VIP WAITLIST FORM SUBMISSION (mour-backend API)
   // ==========================================================================
+  const MOUR_WAITLIST_URL = 'https://mour-backend.onrender.com/api/v1/eyes/waitlist';
+  const FORMSPREE_FALLBACK_URL = 'https://formspree.io/f/mbgjgdoj';
+
+  function postWaitlistJson(url, payload) {
+    return fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+  }
+
+  async function readResponseJson(response) {
+    try {
+      return await response.json();
+    } catch (err) {
+      return {};
+    }
+  }
+
+  async function fallbackWaitlistToFormspree(payload) {
+    try {
+      await postWaitlistJson(FORMSPREE_FALLBACK_URL, {
+        ...payload,
+        _subject: 'New MOUR Founding Eye Registration: ' + (payload.Full_Name || '')
+      });
+    } catch (err) {
+      console.warn('Formspree waitlist fallback failed:', err);
+    }
+  }
+
   window.submitMourApplication = async function() {
     const btn = document.getElementById('mour_submit_btn');
     const errBox = document.getElementById('mour_error_msg');
@@ -473,8 +506,18 @@
     if (!ageCheck.checked) { showError('You must certify that you are at least 18 years old.'); return; }
     if (!termsCheck.checked) { showError('You must agree to the MOUR Terms of Service.'); return; }
 
-    btn.disabled = true;
-    btn.textContent = '⏳ Encrypting & Transmitting to MOUR...';
+    const originalBtnText = btn ? btn.textContent : '';
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = '⏳ Encrypting & Transmitting to MOUR...';
+    }
+
+    function restoreButton() {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = originalBtnText;
+      }
+    }
 
     const payload = {
       Full_Name: nameField.value.trim(),
@@ -486,29 +529,34 @@
       Age_18_Verified: 'Yes',
       Terms_Agreed: 'Yes',
       Role: 'Eye (Creator)',
-      VIP_Tier: 'Founding Eye VIP',
-      _subject: 'New MOUR Founding Eye Registration: ' + nameField.value.trim()
+      VIP_Tier: 'Founding Eye VIP'
     };
 
     try {
-      const response = await fetch('https://formspree.io/f/mbgjgdoj', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
+      const response = await postWaitlistJson(MOUR_WAITLIST_URL, payload);
+      const data = await readResponseJson(response);
+      const apiSucceeded = (response.ok || data.success === true) && data.success !== false;
 
-      if (response.ok) {
+      if (apiSucceeded) {
         showSuccessState(nameField.value.trim(), cityField.value.trim());
-      } else {
-        console.warn('Formspree returned non-200, activating VIP fallback confirmation');
-        showSuccessState(nameField.value.trim(), cityField.value.trim());
+        return;
       }
+
+      if (response.status >= 400 && response.status < 500) {
+        showError(data.error || 'Please check your information and try again.');
+        restoreButton();
+        return;
+      }
+
+      console.warn('Waitlist API returned ' + response.status + ', attempting Formspree fallback');
+      await fallbackWaitlistToFormspree(payload);
+      showError(data.error || 'We could not confirm your registration with MOUR. Please try again in a moment.');
+      restoreButton();
     } catch (err) {
-      console.warn('Network error, completing VIP registration locally:', err);
-      showSuccessState(nameField.value.trim(), cityField.value.trim());
+      console.warn('Waitlist API network error, attempting Formspree fallback:', err);
+      await fallbackWaitlistToFormspree(payload);
+      showError('Connection error. Please check your network and try again.');
+      restoreButton();
     }
   };
 

@@ -439,7 +439,37 @@
       });
     })();
 
-    // Formspree API
+    // mour-backend waitlist API (Formspree is network/5xx fallback only)
+    const MOUR_WAITLIST_URL = 'https://mour-backend.onrender.com/api/v1/eyes/waitlist';
+    const FORMSPREE_FALLBACK_URL = 'https://formspree.io/f/mbgjgdoj';
+
+    function postWaitlistJson(url, payload) {
+      return fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    async function readResponseJson(response) {
+      try {
+        return await response.json();
+      } catch (err) {
+        return {};
+      }
+    }
+
+    async function fallbackWaitlistToFormspree(payload) {
+      try {
+        await postWaitlistJson(FORMSPREE_FALLBACK_URL, {
+          ...payload,
+          _subject: 'New MOUR Founding Eye Registration: ' + (payload.Full_Name || '')
+        });
+      } catch (err) {
+        console.warn('Formspree waitlist fallback failed:', err);
+      }
+    }
+
     async function submitMourApplication() {
       const btn = document.getElementById('mour_submit_btn');
       const errBox = document.getElementById('mour_error_msg');
@@ -468,30 +498,60 @@
         return;
       }
 
+      const originalBtnText = btn.textContent;
       btn.disabled = true;
       btn.textContent = '⏳ Submitting...';
 
+      const payload = {
+        Full_Name: name,
+        Date_of_Birth: dob,
+        email: email,
+        Mobile_Phone: phone,
+        City_State: city,
+        Device_Camera_Model: device,
+        Age_18_Verified: 'Yes',
+        Terms_Agreed: 'Yes',
+        Role: 'Eye (Creator)',
+        VIP_Tier: 'Founding Eye VIP',
+        Zip_Code: zip,
+        Resolution: res
+      };
+
+      function restoreButton() {
+        btn.disabled = false;
+        btn.textContent = originalBtnText;
+      }
+
       try {
-        const resObj = await fetch('https://formspree.io/f/mbgjgdoj', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({ Full_Name: name, Date_of_Birth: dob, email: email, Mobile_Phone: phone, City_State: city, Zip_Code: zip, Device: device, Resolution: res, Role: "Founding Eye" })
-        });
-        if (resObj.ok) {
+        const resObj = await postWaitlistJson(MOUR_WAITLIST_URL, payload);
+        const data = await readResponseJson(resObj);
+        const apiSucceeded = (resObj.ok || data.success === true) && data.success !== false;
+
+        if (apiSucceeded) {
           document.getElementById('mour_success_name').textContent = name;
           formBox.style.display = 'none';
           successBox.style.display = 'block';
-        } else {
-          errBox.textContent = "Submission could not be completed. Please try again.";
-          errBox.style.display = 'block';
-          btn.disabled = false;
-          btn.textContent = 'Claim Founding Eye Status →';
+          return;
         }
-      } catch (err) {
-        errBox.textContent = "Connection error. Please check your network.";
+
+        if (resObj.status >= 400 && resObj.status < 500) {
+          errBox.textContent = data.error || 'Please check your information and try again.';
+          errBox.style.display = 'block';
+          restoreButton();
+          return;
+        }
+
+        console.warn('Waitlist API returned ' + resObj.status + ', attempting Formspree fallback');
+        await fallbackWaitlistToFormspree(payload);
+        errBox.textContent = data.error || 'We could not confirm your registration with MOUR. Please try again in a moment.';
         errBox.style.display = 'block';
-        btn.disabled = false;
-        btn.textContent = 'Claim Founding Eye Status →';
+        restoreButton();
+      } catch (err) {
+        console.warn('Waitlist API network error, attempting Formspree fallback:', err);
+        await fallbackWaitlistToFormspree(payload);
+        errBox.textContent = 'Connection error. Please check your network.';
+        errBox.style.display = 'block';
+        restoreButton();
       }
     }
   </script>
