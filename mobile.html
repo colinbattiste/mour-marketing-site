@@ -439,7 +439,7 @@
       });
     })();
 
-    // Formspree API
+    // Founding Eye waitlist: mour-backend first, Formspree fallback
     async function submitMourApplication() {
       const btn = document.getElementById('mour_submit_btn');
       const errBox = document.getElementById('mour_error_msg');
@@ -471,21 +471,66 @@
       btn.disabled = true;
       btn.textContent = '⏳ Submitting...';
 
+      const payload = {
+        Full_Name: name,
+        Date_of_Birth: dob,
+        email: email,
+        Mobile_Phone: phone,
+        City_State: city,
+        Zip_Code: zip,
+        Device_Camera_Model: device,
+        Resolution: res,
+        Age_18_Verified: 'Yes',
+        Terms_Agreed: 'Yes',
+        Role: 'Eye (Creator)',
+        VIP_Tier: 'Founding Eye VIP',
+        _subject: 'New MOUR Founding Eye Registration: ' + name
+      };
+
+      const waitlistUrl = 'https://mour-backend.onrender.com/api/v1/eyes/waitlist';
+      const formspreeUrl = 'https://formspree.io/f/mbgjgdoj';
+      const jsonHeaders = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
+
+      function showSuccess() {
+        document.getElementById('mour_success_name').textContent = name;
+        formBox.style.display = 'none';
+        successBox.style.display = 'block';
+      }
+
+      function showSubmitError() {
+        errBox.textContent = "Submission could not be completed. Please try again.";
+        errBox.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Claim Founding Eye Status →';
+      }
+
       try {
-        const resObj = await fetch('https://formspree.io/f/mbgjgdoj', {
+        let response = await fetch(waitlistUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({ Full_Name: name, Date_of_Birth: dob, email: email, Mobile_Phone: phone, City_State: city, Zip_Code: zip, Device: device, Resolution: res, Role: "Founding Eye" })
+          headers: jsonHeaders,
+          body: JSON.stringify(payload)
         });
-        if (resObj.ok) {
-          document.getElementById('mour_success_name').textContent = name;
-          formBox.style.display = 'none';
-          successBox.style.display = 'block';
+
+        if (response.ok) {
+          showSuccess();
+          return;
+        }
+
+        let apiErr = null;
+        try { apiErr = await response.json(); } catch (_) {}
+        console.warn('mour-backend waitlist non-OK', response.status, apiErr);
+
+        response = await fetch(formspreeUrl, {
+          method: 'POST',
+          headers: jsonHeaders,
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          console.warn('Waitlist saved via Formspree fallback');
+          showSuccess();
         } else {
-          errBox.textContent = "Submission could not be completed. Please try again.";
-          errBox.style.display = 'block';
-          btn.disabled = false;
-          btn.textContent = 'Claim Founding Eye Status →';
+          showSubmitError();
         }
       } catch (err) {
         errBox.textContent = "Connection error. Please check your network.";
