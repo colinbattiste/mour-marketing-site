@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>MOUR SMS OTP Consent Evidence — Mour App LLC</title>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:820px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#111}
+h1,h2{line-height:1.2}
+.note{color:#444;font-size:.95rem}
+img{max-width:100%;height:auto;border:1px solid #ddd;border-radius:8px;margin:.75rem 0 1.25rem}
+code,pre{font-size:.85rem;background:#f6f6f6;padding:.2rem .35rem;border-radius:4px}
+pre{padding:1rem;overflow:auto;white-space:pre-wrap}
+ul{padding-left:1.2rem}
+a{color:#0b5fff}
+</style>
+</head>
+<body>
+<h1>MOUR SMS OTP consent evidence</h1>
+<p><strong>Brand:</strong> Mour App LLC · <strong>Site:</strong> <a href="index.html">mourapp.com</a> · <strong>App:</strong> com.mour.app</p>
+<p class="note">Public evidence for Twilio A2P / 10DLC OTP (2FA) campaign. Opt-in occurs only inside the MOUR mobile app. There is no website form opt-in and no keyword text-in opt-in for this campaign.</p>
+
+<h2>1. How users opt in</h2>
+<ol>
+<li>User opens MOUR and chooses phone verification during login/signup.</li>
+<li>User enters their own mobile number on the in-app phone screen.</li>
+<li>Before tapping <strong>SEND SMS CODE</strong>, the app shows consent disclosures (rates, HELP, STOP, transactional OTP only, consent not a condition of purchase).</li>
+<li>User taps <strong>SEND SMS CODE</strong> to request a one-time authentication SMS.</li>
+</ol>
+
+<h2>2. On-screen consent (byte-aligned)</h2>
+<blockquote>
+By requesting a code you agree to receive a one-time MOUR authentication SMS. Messages are transactional OTPs sent only when you request them (on-demand / as needed; not recurring marketing). Message and data rates may apply. Reply HELP for help. Reply STOP to opt out. Consent is not a condition of purchase.
+</blockquote>
+
+<h2>3. In-app screenshots (shipped UI / Simulator capture)</h2>
+<p><strong>Phone entry with consent above SEND SMS CODE</strong></p>
+<img src="a2p-evidence/01-phone-entry-consent.png" alt="MOUR phone entry screen with SMS consent disclosure above SEND SMS CODE"/>
+<p><strong>Disclosure crop (rates / HELP / STOP / purchase line)</strong></p>
+<img src="a2p-evidence/01b-disclosure-crop.png" alt="Zoomed crop of MOUR SMS consent disclosure"/>
+<p><strong>OTP entry after code request (simulated 8492 while A2P pending)</strong></p>
+<img src="a2p-evidence/02-otp-entry-8492.png" alt="MOUR OTP entry screen with code 8492"/>
+
+<h2>4. Legal</h2>
+<ul>
+<li>Privacy Policy: <a href="privacy.html">https://mourapp.com/privacy</a></li>
+<li>Terms of Service: <a href="terms.html">https://mourapp.com/terms</a></li>
+<li>This evidence page: <a href="sms-otp-consent.html">https://mourapp.com/sms-otp-consent.html</a></li>
+</ul>
+
+<h2>5. Filed message flow (reference)</h2>
+<pre>End users opt in to receive MOUR one-time passcode (OTP) SMS messages only inside the MOUR mobile app (com.mour.app) during login or signup. The user voluntarily enters their own mobile phone number on the in-app phone verification screen and taps a control such as "Send code" or "Continue" to request a verification text. At that step the app shows consent disclosures stating that by requesting a code the user agrees to receive a one-time MOUR authentication SMS; messages are transactional OTPs sent only when the user requests them (message frequency: on-demand / as needed; not recurring marketing); message and data rates may apply; reply HELP for help; reply STOP to opt out. Consent is collected specifically for this OTP campaign and is not obtained from purchased or shared lead lists; consent is not a condition of purchase. There is no website form opt-in and no keyword text-in opt-in for this campaign. Mobile phone numbers and messaging consent are not shared, sold, or provided to third parties or affiliates for marketing or promotional purposes. Public evidence of the in-app opt-in screen (real app screenshots with the required disclosures; no login required): https://mourapp.com/sms-otp-consent.html. Privacy Policy (required): https://mourapp.com/privacy. Terms of Service: https://mourapp.com/terms.</pre>
+</body>
+</html>

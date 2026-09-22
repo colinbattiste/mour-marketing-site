@@ -453,7 +453,6 @@
     const deviceField = document.getElementById('mour_device');
     const ageCheck = document.getElementById('mour_age');
     const termsCheck = document.getElementById('mour_terms');
-    const smsCheck = document.getElementById('mour_sms');
 
     function showError(msg) {
       if (errBox) {
@@ -473,7 +472,6 @@
     if (!deviceField.value.trim()) { showError('Please enter your Phone or Camera Model.'); deviceField.focus(); return; }
     if (!ageCheck.checked) { showError('You must certify that you are at least 18 years old.'); return; }
     if (!termsCheck.checked) { showError('You must agree to the MOUR Terms of Service.'); return; }
-    if (!smsCheck || !smsCheck.checked) { showError('You must consent to SMS messages to join the waitlist.'); return; }
 
     btn.disabled = true;
     btn.textContent = '⏳ Encrypting & Transmitting to MOUR...';
@@ -487,7 +485,6 @@
       Device_Camera_Model: deviceField.value.trim(),
       Age_18_Verified: 'Yes',
       Terms_Agreed: 'Yes',
-      SMS_Consent: 'Yes',
       Role: 'Eye (Creator)',
       VIP_Tier: 'Founding Eye VIP',
       _subject: 'New MOUR Founding Eye Registration: ' + nameField.value.trim()
