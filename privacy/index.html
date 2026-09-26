@@ -20,8 +20,8 @@ footer{margin-top:3rem;padding-top:1rem;border-top:1px solid #ddd;color:#666;fon
 <a href="../terms.html">Terms of Service</a>
 </nav>
 <h1>Privacy Policy</h1>
-<p class="meta">Mour App LLC · Effective September 6, 2026 · Last updated September 15, 2026</p>
-<pre>MOUR PRIVACY POLICY Effective Date: September 6, 2026 Last Updated: September 15, 2026
+<p class="meta">Mour App LLC · Effective September 6, 2026 · Last updated September 25, 2026</p>
+<pre>MOUR PRIVACY POLICY Effective Date: September 6, 2026 Last Updated: September 25, 2026
 
 Mour App LLC (“MOUR,” “we,” “us,” or “our”) respects your privacy. This Privacy Policy explains how we
 collect, use, disclose, and protect your information when you use the MOUR platform.
@@ -33,25 +33,32 @@ collect, use, disclose, and protect your information when you use the MOUR platf
 We collect only the minimum personal information necessary to operate the platform. This includes:
 
     ●​ Account information (name, email, phone number, and profile details)
-    ●​ Precise GPS location data, collected solely to verify the location of photos and videos
+    ●​ Precise GPS location data (see “Location Data” below)
+    ●​ Photos, videos, and audio you capture, upload, or stream through the app, and the posts, captions,
+        comments, ratings, and profile details you add
     ●​ Job and transaction metadata
     ●​ Government-issued photo identification and selfie verification when required for legal compliance
     ●​ Device and technical information (IP address, device type, and app usage data) for security and
         functionality
 
-Important: MOUR does not access, view, review, or store the content of private photos or videos. All
-media is transferred directly between users via encrypted peer-to-peer connections.
+Photos and Videos: Photos and videos you upload to MOUR (including gig deliveries and posts) are
+stored by MOUR on our cloud storage provider, Supabase. Live video from the Go Live feature is relayed
+in real time through our live video provider, LiveKit. We may review stored or reported media to operate
+the platform, enforce our Terms of Service, respond to reports, and comply with the law.
+
+Location Data: With your permission, MOUR uses your device’s precise location to verify where photos
+and videos were captured, to show you nearby gigs and content on the map, and to place your gigs and
+posts on the map. Location is stored with your account and with the gigs and posts you create. You can
+turn off location access at any time in your device settings; some features will not work without it.
 
 
 
-2. Media Privacy Settings
+2. Media Storage and Visibility
 
-Users may choose whether media is private or public:
-
-    ●​ Private Media: Delivered directly to the Requester. MOUR does not store private media beyond
-        any temporary period required for delivery.
-    ●​ Public Media: May be stored in our database and retained only for the duration required by
-        applicable law.
+    ●​ Gig Deliveries: Media an Eye delivers for a gig is stored by MOUR (on Supabase storage) and made
+        available to the Requester who posted that gig.
+    ●​ Public Posts: Media you post publicly is stored by MOUR and visible to other users of the platform.
+    ●​ Live Video: Live streams are relayed through LiveKit to the viewers of that stream.
 
 
 
@@ -60,7 +67,7 @@ Users may choose whether media is private or public:
 We use your information solely to:
 
     ●​ Operate and improve the platform
-    ●​ Verify media locations
+    ●​ Verify media locations and show nearby gigs and content
     ●​ Process payments and job transactions
     ●​ Enforce our Terms of Service and legal obligations
     ●​ Prevent fraud and illegal activity
@@ -77,9 +84,15 @@ necessary to provide and secure the platform. We do not collect or store unneces
 
 We do not sell your personal information. We only share information with:
 
-    ●​ Third-party service providers that assist us in operating the platform (such as payment processors,
-        cloud hosting providers, and our SMS delivery provider), all of whom are contractually obligated
-        to protect your data and process it only to provide those services
+    ●​ Service providers that operate parts of the platform for us, only for the purposes listed below.
+        Each is contractually obligated to protect your data and to use it only to provide its services:
+          ○ Stripe — payments, escrow, identity verification for payouts, and payouts to Eyes
+          ○ Twilio — sending SMS verification codes
+          ○ Resend — sending email, including email verification codes
+          ○ Supabase — database and storage of account data, photos, and videos
+          ○ Render — hosting of the MOUR servers and API
+          ○ LiveKit — relaying live video streams
+          ○ Apple — Sign in with Apple, if you choose to use it
     ●​ Law enforcement or regulatory authorities when required by law or valid legal process
     ●​ Other users only to the extent necessary to facilitate a job
 
@@ -89,13 +102,19 @@ OTP texts on our behalf may process phone numbers solely to deliver those messag
 
 
 
-6. Data Retention
+6. Data Retention and Account Deletion
 
-    ●​ Private Media: Not retained beyond temporary delivery requirements.
-    ●​ Public Media: Retained only as long as required by applicable law.
+    ●​ Photos and Videos: Stored while your account is active or as needed to complete a gig, and deleted
+        or de-identified after account deletion, except where we must keep them to comply with the law or
+        resolve disputes.
+    ●​ Location: Stored with your account and with the gigs and posts you create until you delete them or
+        delete your account.
     ●​ Personal Information: Upon account deletion, we will delete your personal information within thirty
-        (30) days, except for records we are legally required to retain (including media consent and
-        verification records).
+        (30) days, except for records we are legally required to retain (including payment, media consent,
+        and verification records).
+
+You can delete your account at any time in the app (Profile → Settings → Delete Account) or by emailing
+support@mourapp.com from the email or phone number on your account.
 
 
 
