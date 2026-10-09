@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>You're Pro — MOUR</title>
-  <meta name="description" content="You're Pro. Here's what MOUR Pro unlocks. $9.99/month. Cancel anytime." />
+  <title>Confirming — MOUR Pro</title>
+  <meta name="description" content="MOUR Pro is $9.99 a month and renews monthly until you cancel." />
   <link rel="icon" type="image/png" href="/assets/mour-glasses-logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,18 +19,18 @@
     </a>
 
     <article class="pro-card">
-      <div class="pro-confetti" aria-hidden="true">
+      <div class="pro-confetti" id="pro-confetti" hidden aria-hidden="true">
         <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
       </div>
-      <div class="pro-star" aria-hidden="true">
+      <div class="pro-star" id="pro-star" hidden aria-hidden="true">
         <svg width="54" height="54" viewBox="0 0 24 24" fill="#fff"><path d="M12 2.5l2.7 6.4 6.8.6-5.2 4.4 1.6 6.6L12 17.8 6.1 20.5l1.6-6.6L2.5 9.5l6.8-.6L12 2.5z"/></svg>
       </div>
       <header class="pro-hero">
-        <h1>You're Pro! 🎉</h1>
-        <p class="pro-thanks">Thanks for backing MOUR.<br />Here's what's on now.</p>
+        <h1 id="pro-success-title">Confirming…</h1>
+        <p id="pro-thanks" class="pro-thanks" hidden>Thanks for backing MOUR.<br />Here's what's on now.</p>
       </header>
 
-      <ul class="pro-checks pro-success-list">
+      <ul id="pro-unlocked" class="pro-checks pro-success-list" hidden>
         <li>
           <span class="pro-check" aria-hidden="true">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>
@@ -69,7 +69,8 @@
         </li>
       </ul>
 
-      <p id="pro-renewal" class="pro-renewal">$9.99/month. Cancel anytime.</p>
+      <p id="pro-confirm-note" class="pro-legal" role="status" aria-live="polite">This usually takes a few seconds.</p>
+      <p id="pro-renewal" class="pro-renewal" hidden>$9.99/month. Cancel anytime.</p>
 
       <div class="pro-actions">
         <a class="pro-btn pro-btn-done" href="/">Done</a>

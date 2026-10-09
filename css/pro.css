@@ -137,10 +137,6 @@ h1 {
   color: #e2e8f0;
 }
 
-.pro-sep {
-  color: var(--text-secondary);
-}
-
 .pro-anytime {
   display: block;
   margin-top: 4px;
@@ -293,6 +289,19 @@ h1 {
   display: grid;
   gap: 12px;
   margin-top: 18px;
+}
+
+.pro-subscribe-block {
+  display: grid;
+  gap: 8px;
+}
+
+.pro-price-note {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 14px;
+  line-height: 1.45;
+  text-align: center;
 }
 
 .pro-btn {

@@ -21,6 +21,10 @@
   var FALLBACK_API_BASE = 'https://mour-backend.onrender.com';
   var TOKEN_KEY = 'mour_auth_token';
   var APPLE_LINE = 'You already have Pro through the App Store — manage it in Apple Settings';
+  var CONFIRM_POLL_MS = 2000;
+  var CONFIRM_GIVE_UP_MS = 30000;
+  var CONFIRM_FALLBACK = "We're still confirming your subscription. You can leave this page. It will show in MOUR once it finishes. $9.99 a month, renews monthly until you cancel.";
+  var PRO_READY_TITLE = "You're Pro! 🎉";
 
   function resolveApiBase(raw, fallback) {
     var backup = fallback || FALLBACK_API_BASE;
@@ -77,6 +81,14 @@
     var when = formatRenewalDate(view && view.renewal_date);
     if (when) return 'Renews ' + when + ' at $9.99/month. Cancel anytime.';
     return '$9.99/month. Cancel anytime.';
+  }
+
+  function isProActive(view) {
+    if (!view || view.success === false) return false;
+    var source = String(view.source || '');
+    var status = String(view.status || '');
+    if (source !== 'stripe' && source !== 'apple') return false;
+    return status === 'active' || status === 'grace_period' || view.pro === true;
   }
 
   function decideOffer(view) {
@@ -208,19 +220,88 @@
   }
 
   function mountSuccess() {
+    var title = document.getElementById('pro-success-title');
+    var thanks = document.getElementById('pro-thanks');
+    var unlocked = document.getElementById('pro-unlocked');
     var note = document.getElementById('pro-renewal');
-    if (!note) return;
-    if (!sessionToken()) {
-      note.textContent = renewalNote(null);
-      return;
+    var pending = document.getElementById('pro-confirm-note');
+    var star = document.getElementById('pro-star');
+    var confetti = document.getElementById('pro-confetti');
+    var started = Date.now();
+    var stopped = false;
+
+    function showPending() {
+      if (title) title.textContent = 'Confirming…';
+      document.title = 'Confirming — MOUR Pro';
+      setHidden(thanks, true);
+      setHidden(unlocked, true);
+      setHidden(note, true);
+      setHidden(star, true);
+      setHidden(confetti, true);
+      if (pending) {
+        pending.hidden = false;
+        pending.textContent = 'This usually takes a few seconds.';
+      }
     }
-    request('/api/v1/me/pro', { method: 'GET' }).then(function (result) {
-      if (!result.ok || !result.data || result.data.success === false) {
-        note.textContent = renewalNote(null);
+
+    function showReady(view) {
+      stopped = true;
+      if (title) title.textContent = PRO_READY_TITLE;
+      document.title = "You're Pro — MOUR";
+      setHidden(thanks, false);
+      setHidden(unlocked, false);
+      setHidden(star, false);
+      setHidden(confetti, false);
+      setHidden(pending, true);
+      if (note) {
+        note.hidden = false;
+        note.textContent = renewalNote(view);
+      }
+    }
+
+    function showFallback() {
+      stopped = true;
+      if (title) title.textContent = 'Confirming…';
+      setHidden(thanks, true);
+      setHidden(unlocked, true);
+      setHidden(note, true);
+      setHidden(star, true);
+      setHidden(confetti, true);
+      if (pending) {
+        pending.hidden = false;
+        pending.textContent = CONFIRM_FALLBACK;
+      }
+    }
+
+    function tick() {
+      if (stopped) return;
+      if (Date.now() - started >= CONFIRM_GIVE_UP_MS) {
+        showFallback();
         return;
       }
-      note.textContent = renewalNote(result.data);
-    });
+      var finish = function (view) {
+        if (stopped) return;
+        if (isProActive(view)) {
+          showReady(view);
+          return;
+        }
+        if (Date.now() - started >= CONFIRM_GIVE_UP_MS) {
+          showFallback();
+          return;
+        }
+        setTimeout(tick, CONFIRM_POLL_MS);
+      };
+      if (!sessionToken()) {
+        finish(null);
+        return;
+      }
+      request('/api/v1/me/pro', { method: 'GET' }).then(function (result) {
+        finish(result.ok && result.data && result.data.success !== false ? result.data : null);
+      });
+    }
+
+    showPending();
+    tick();
   }
 
   function mountOffer() {
@@ -232,6 +313,7 @@
     var stripeBox = document.getElementById('pro-stripe');
     var stripeStatus = document.getElementById('pro-stripe-status');
     var legal = document.getElementById('pro-legal');
+    var subscribeBlock = document.getElementById('pro-subscribe-block');
     var signOut = document.getElementById('pro-sign-out');
     var sendBtn = document.getElementById('pro-send-code');
     var verifyBtn = document.getElementById('pro-verify');
@@ -275,6 +357,7 @@
         else primary.textContent = 'Subscribe';
       }
       setHidden(retry, mode !== 'unknown');
+      setHidden(subscribeBlock, mode !== 'signed_out' && mode !== 'subscribe');
       setHidden(apple, mode !== 'apple');
       setHidden(stripeBox, mode !== 'stripe');
       setHidden(signIn, mode !== 'signed_out');
@@ -286,9 +369,11 @@
         } else if (mode === 'stripe') {
           legal.hidden = false;
           legal.textContent = 'Manage or cancel opens the Stripe customer portal.';
+        } else if (mode === 'checking' || mode === 'unknown') {
+          legal.hidden = true;
         } else {
           legal.hidden = false;
-          legal.textContent = "You'll confirm payment on Stripe Checkout. $9.99 a month, renews monthly until you cancel.";
+          legal.textContent = "You'll confirm payment on Stripe Checkout.";
         }
       }
     }
@@ -524,6 +609,11 @@
     isStripeRedirect: isStripeRedirect,
     formatRenewalDate: formatRenewalDate,
     renewalNote: renewalNote,
+    isProActive: isProActive,
+    CONFIRM_POLL_MS: CONFIRM_POLL_MS,
+    CONFIRM_GIVE_UP_MS: CONFIRM_GIVE_UP_MS,
+    CONFIRM_FALLBACK: CONFIRM_FALLBACK,
+    PRO_READY_TITLE: PRO_READY_TITLE,
     decideOffer: decideOffer,
     primaryAction: primaryAction,
     stripeStatusText: stripeStatusText,

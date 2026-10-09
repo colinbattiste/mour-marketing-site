@@ -33,7 +33,8 @@
 
       <div class="pro-price-card">
         <p class="pro-price-exact">
-          <span class="pro-amount">$9.99</span><span class="pro-per">/month</span><span class="pro-sep"> · </span><span class="pro-anytime">Cancel anytime</span>
+          <span class="pro-amount">$9.99</span><span class="pro-per">/month</span>
+          <span class="pro-anytime">Cancel anytime</span>
         </p>
       </div>
 
@@ -113,13 +114,16 @@
       <p id="pro-status" class="pro-status" role="status" aria-live="polite"></p>
 
       <div class="pro-actions">
-        <button type="button" id="pro-subscribe" class="pro-btn pro-btn-primary">Subscribe</button>
+        <div id="pro-subscribe-block" class="pro-subscribe-block">
+          <button type="button" id="pro-subscribe" class="pro-btn pro-btn-primary">Subscribe</button>
+          <p id="pro-price-note" class="pro-price-note">$9.99 a month, renews monthly until you cancel.</p>
+        </div>
         <button type="button" id="pro-retry" class="pro-btn pro-btn-primary" hidden>Try again</button>
         <a id="pro-not-now" class="pro-btn pro-btn-outline" href="/">Not now</a>
       </div>
 
       <p class="pro-free">Free MOUR stays fully usable.</p>
-      <p id="pro-legal" class="pro-legal">You'll confirm payment on Stripe Checkout. $9.99 a month, renews monthly until you cancel.</p>
+      <p id="pro-legal" class="pro-legal">You'll confirm payment on Stripe Checkout.</p>
 
       <nav class="pro-links" aria-label="Policies">
         <a href="/terms/">Terms</a>
