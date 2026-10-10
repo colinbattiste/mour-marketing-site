@@ -123,7 +123,7 @@ h1 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--plan-gap);
-  align-items: stretch;
+  align-items: start;
   margin-top: 22px;
 }
 
@@ -162,8 +162,7 @@ h1 {
 }
 
 .pro-plan .pro-subscribe-block {
-  margin-top: auto;
-  padding-top: 8px;
+  margin-top: 18px;
 }
 
 .pro-price-card {
