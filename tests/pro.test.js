@@ -44,10 +44,19 @@ test('renewal copy and Apple line stay plain', () => {
   );
   assert.equal(pro.renewalNote({ source: 'apple', status: 'active' }), pro.APPLE_LINE);
   const note = pro.renewalNote({ source: 'stripe', renewal_date: '2026-11-09T18:00:00.000Z' });
-  assert.match(note, /^Renews Nov \d, 2026 at \$9\.99\/month\. Cancel anytime\.$/);
-  assert.equal(pro.renewalNote({ source: 'stripe' }), '$9.99/month. Cancel anytime.');
-  assert.match(pro.stripeStatusText({ status: 'active', renewal_date: '2026-11-09T18:00:00.000Z' }), /Status: Active\./);
+  assert.match(note, /^Renews Nov \d, 2026\. Cancel anytime\.$/);
+  assert.equal(note.includes('$'), false);
+  assert.equal(pro.renewalNote({ source: 'stripe' }), 'Renews monthly until you cancel.');
+  const active = pro.stripeStatusText({ status: 'active', renewal_date: '2026-11-09T18:00:00.000Z' });
+  assert.match(active, /Status: Active\./);
+  assert.match(active, /Renews Nov \d, 2026\./);
+  assert.equal(active.includes('$'), false);
   assert.match(pro.stripeStatusText({ status: 'grace_period' }), /Payment retrying/);
+  assert.equal(pro.CONFIRM_FALLBACK.includes('$'), false);
+  assert.deepEqual(pro.checkoutBody('pro'), { plan: 'pro' });
+  assert.deepEqual(pro.checkoutBody('pro_plus'), { plan: 'pro_plus' });
+  assert.equal(pro.checkoutBody('plus'), null);
+  assert.equal(pro.checkoutBody('PRO'), null);
   assert.equal(pro.isProActive({ source: 'stripe', status: 'active', pro: true }), true);
   assert.equal(pro.isProActive({ source: 'apple', status: 'active', pro: true }), true);
   assert.equal(pro.isProActive({ source: 'stripe', status: 'grace_period', pro: true }), true);
@@ -117,9 +126,16 @@ test('pages state the price, benefits, and an equal Not now, with no dark patter
       assert.equal(pattern.test(text), false, `${file} matched ${pattern}`);
     }
   }
-  assert.match(offer, /\$9\.99<\/span><span class="pro-per">\/month<\/span>\s*<span class="pro-anytime">Cancel anytime/);
+  assert.match(offer, /\$9\.99<\/span><span class="pro-per">\/mo<\/span>\s*<span class="pro-anytime">Cancel anytime/);
+  assert.match(offer, /\$19\.99<\/span><span class="pro-per">\/mo<\/span>\s*<span class="pro-anytime">Cancel anytime/);
   assert.equal(offer.includes('pro-sep'), false);
-  assert.match(offer, /id="pro-subscribe"[\s\S]*\$9\.99 a month, renews monthly until you cancel\.[\s\S]*id="pro-not-now"/);
+  assert.match(offer, /Plenty of personal 3D renders, plus unlimited renders on your bounties\./);
+  assert.match(offer, /Our most 3D renders, for when you want to capture everything\./);
+  assert.match(offer, /data-plan="pro"[\s\S]*\$9\.99 a month, renews monthly until you cancel\./);
+  assert.match(offer, /data-plan="pro_plus"[\s\S]*\$19\.99 a month, renews monthly until you cancel\./);
+  assert.equal(/most popular|best value|recommended|upgrade now/i.test(offer), false);
+  assert.equal(/\d+\s*renders/i.test(offer), false);
+  assert.equal(/\d+\s*renders/i.test(read('js/pro.js')), false);
   assert.match(offer, /2 free boosts every month/);
   assert.match(offer, /Unused boosts don't roll over/);
   assert.match(offer, /Half-price rush fees/);
@@ -130,10 +146,13 @@ test('pages state the price, benefits, and an equal Not now, with no dark patter
   assert.match(offer, /A real person, front of the line/);
   assert.match(offer, /Free MOUR stays fully usable\./);
   assert.match(offer, /Sign in with your MOUR account/);
-  assert.match(offer, />Subscribe</);
+  assert.match(offer, /class="pro-btn pro-btn-primary" data-plan="pro"/);
+  assert.match(offer, /class="pro-btn pro-btn-primary" data-plan="pro_plus"/);
+  assert.equal((offer.match(/>Subscribe</g) || []).length, 2);
   assert.match(offer, />Not now</);
-  assert.match(offer, /id="pro-subscribe" class="pro-btn pro-btn-primary"/);
   assert.match(offer, /id="pro-not-now" class="pro-btn pro-btn-outline"/);
+  assert.match(read('js/pro.js'), /Switch plan/);
+  assert.match(read('js/pro.js'), /\/api\/v1\/me\/pro\/checkout/);
   assert.match(offer, /You already have Pro through the App Store — manage it in Apple Settings/);
   assert.match(css, /\.pro-btn \{[^}]*min-height: 56px/s);
   assert.match(css, /\.pro-btn-primary \{[^}]*border: 2px solid #fff/s);
@@ -142,7 +161,9 @@ test('pages state the price, benefits, and an equal Not now, with no dark patter
   assert.match(success, /id="pro-success-title"/);
   assert.match(read('js/pro.js'), /You're Pro! 🎉/);
   assert.match(success, /2 free boosts every month/);
-  assert.match(success, /\$9\.99\/month\. Cancel anytime\./);
+  assert.match(success, /Renews monthly until you cancel\./);
+  assert.equal(success.includes('$9.99'), false);
+  assert.equal(success.includes('$19.99'), false);
   assert.match(success, />Done</);
   assert.match(cancel, /No charge was made/);
   assert.match(cancel, /Free MOUR stays fully usable\./);

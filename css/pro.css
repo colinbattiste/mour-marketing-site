@@ -45,6 +45,10 @@ body.pro-body {
   padding: 28px 20px 48px;
 }
 
+.pro-wrap-plans {
+  width: min(920px, 100%);
+}
+
 .pro-brand {
   display: inline-flex;
   align-items: center;
@@ -62,6 +66,8 @@ body.pro-body {
 }
 
 .pro-card {
+  --plan-gap: 16px;
+  --plan-pad-x: 16px;
   margin-top: 28px;
   padding: 28px 22px 22px;
   background: var(--bg-card);
@@ -111,6 +117,53 @@ h1 {
   margin: 8px 0 0;
   color: #dbe7f5;
   font-size: 17px;
+}
+
+.pro-plans {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--plan-gap);
+  align-items: stretch;
+  margin-top: 22px;
+}
+
+.pro-plan {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+  padding: 20px var(--plan-pad-x) 16px;
+  border: 1.5px solid rgba(34, 211, 238, 0.55);
+  border-radius: 22px;
+  background: rgba(5, 12, 28, 0.55);
+}
+
+.pro-plan-name {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-align: center;
+  text-transform: none;
+}
+
+.pro-plan-lead {
+  margin: 14px 0 0;
+  color: #dbe7f5;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.pro-plan .pro-benefits {
+  margin-top: 16px;
+}
+
+.pro-plan .pro-subscribe-block {
+  margin-top: auto;
+  padding-top: 8px;
 }
 
 .pro-price-card {
@@ -289,6 +342,12 @@ h1 {
   display: grid;
   gap: 12px;
   margin-top: 18px;
+  justify-items: center;
+}
+
+#pro-not-now,
+#pro-retry {
+  width: calc((100% - var(--plan-gap)) / 2 - (var(--plan-pad-x) * 2));
 }
 
 .pro-subscribe-block {
@@ -478,6 +537,17 @@ h1 {
 
 .pro-calm .pro-actions {
   margin-top: 28px;
+}
+
+@media (max-width: 720px) {
+  .pro-plans {
+    grid-template-columns: 1fr;
+  }
+
+  #pro-not-now,
+  #pro-retry {
+    width: calc(100% - (var(--plan-pad-x) * 2));
+  }
 }
 
 @media (max-width: 380px) {

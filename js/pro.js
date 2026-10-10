@@ -23,7 +23,7 @@
   var APPLE_LINE = 'You already have Pro through the App Store — manage it in Apple Settings';
   var CONFIRM_POLL_MS = 2000;
   var CONFIRM_GIVE_UP_MS = 30000;
-  var CONFIRM_FALLBACK = "We're still confirming your subscription. You can leave this page. It will show in MOUR once it finishes. $9.99 a month, renews monthly until you cancel.";
+  var CONFIRM_FALLBACK = "We're still confirming your subscription. You can leave this page. It will show in MOUR once it finishes. It renews monthly until you cancel.";
   var PRO_READY_TITLE = "You're Pro! 🎉";
 
   function resolveApiBase(raw, fallback) {
@@ -79,8 +79,13 @@
   function renewalNote(view) {
     if (view && view.source === 'apple') return APPLE_LINE;
     var when = formatRenewalDate(view && view.renewal_date);
-    if (when) return 'Renews ' + when + ' at $9.99/month. Cancel anytime.';
-    return '$9.99/month. Cancel anytime.';
+    if (when) return 'Renews ' + when + '. Cancel anytime.';
+    return 'Renews monthly until you cancel.';
+  }
+
+  function checkoutBody(plan) {
+    if (plan !== 'pro' && plan !== 'pro_plus') return null;
+    return { plan: plan };
   }
 
   function isProActive(view) {
@@ -114,7 +119,7 @@
     var status = String((view && view.status) || '');
     var label = status === 'grace_period' ? 'Payment retrying' : (status === 'active' ? 'Active' : 'On file');
     var when = formatRenewalDate(view && view.renewal_date);
-    var renew = when ? ' Renews ' + when + ' at $9.99/month.' : ' $9.99/month.';
+    var renew = when ? ' Renews ' + when + '.' : '';
     return 'Status: ' + label + '.' + renew + ' Cancel anytime.';
   }
 
@@ -304,8 +309,12 @@
     tick();
   }
 
+  function planLabel(plan) {
+    return plan === 'pro_plus' ? 'Pro Plus' : 'Pro';
+  }
+
   function mountOffer() {
-    var primary = document.getElementById('pro-subscribe');
+    var planButtons = Array.prototype.slice.call(document.querySelectorAll('[data-plan]'));
     var notNow = document.getElementById('pro-not-now');
     var retry = document.getElementById('pro-retry');
     var signIn = document.getElementById('pro-sign-in');
@@ -313,7 +322,6 @@
     var stripeBox = document.getElementById('pro-stripe');
     var stripeStatus = document.getElementById('pro-stripe-status');
     var legal = document.getElementById('pro-legal');
-    var subscribeBlock = document.getElementById('pro-subscribe-block');
     var signOut = document.getElementById('pro-sign-out');
     var sendBtn = document.getElementById('pro-send-code');
     var verifyBtn = document.getElementById('pro-verify');
@@ -350,14 +358,21 @@
 
     function applyMode(decision, view) {
       var mode = decision.mode;
-      if (primary) {
-        primary.dataset.mode = mode;
-        primary.hidden = mode === 'apple' || mode === 'unknown' || mode === 'checking';
-        if (mode === 'stripe') primary.textContent = 'Manage or cancel';
-        else primary.textContent = 'Subscribe';
-      }
+      var showPlans = mode === 'signed_out' || mode === 'subscribe' || mode === 'stripe';
+      planButtons.forEach(function (btn) {
+        var plan = btn.getAttribute('data-plan');
+        var block = btn.closest('.pro-subscribe-block');
+        btn.dataset.mode = mode;
+        setHidden(block, !showPlans);
+        if (mode === 'stripe') {
+          btn.textContent = 'Switch plan';
+          btn.setAttribute('aria-label', 'Switch plan for ' + planLabel(plan));
+        } else {
+          btn.textContent = 'Subscribe';
+          btn.setAttribute('aria-label', 'Subscribe to ' + planLabel(plan));
+        }
+      });
       setHidden(retry, mode !== 'unknown');
-      setHidden(subscribeBlock, mode !== 'signed_out' && mode !== 'subscribe');
       setHidden(apple, mode !== 'apple');
       setHidden(stripeBox, mode !== 'stripe');
       setHidden(signIn, mode !== 'signed_out');
@@ -368,7 +383,7 @@
           legal.hidden = true;
         } else if (mode === 'stripe') {
           legal.hidden = false;
-          legal.textContent = 'Manage or cancel opens the Stripe customer portal.';
+          legal.textContent = 'Switch plan opens the Stripe customer portal.';
         } else if (mode === 'checking' || mode === 'unknown') {
           legal.hidden = true;
         } else {
@@ -404,7 +419,7 @@
 
     function setBusy(on) {
       busy = on;
-      [primary, sendBtn, verifyBtn, retry].forEach(function (el) {
+      planButtons.concat([sendBtn, verifyBtn, retry]).forEach(function (el) {
         if (!el) return;
         el.disabled = on;
         el.setAttribute('aria-busy', on ? 'true' : 'false');
@@ -419,10 +434,12 @@
       window.location.assign(url);
     }
 
-    function startCheckout() {
+    function startCheckout(plan) {
+      var body = checkoutBody(plan);
+      if (!body) return;
       setBusy(true);
       setStatus('Continuing to Stripe Checkout…');
-      request('/api/v1/me/pro/checkout', { method: 'POST', body: {} }).then(function (result) {
+      request('/api/v1/me/pro/checkout', { method: 'POST', body: body }).then(function (result) {
         setBusy(false);
         if (!result.ok) {
           var err = calmError(result.status, result.data, 'checkout');
@@ -455,9 +472,11 @@
       });
     }
 
-    function onPrimary() {
-      if (busy || !primary) return;
-      var mode = primary.dataset.mode || 'signed_out';
+    function onPlanClick(event) {
+      if (busy) return;
+      var btn = event.currentTarget;
+      var mode = btn.dataset.mode || 'signed_out';
+      var plan = btn.getAttribute('data-plan');
       if (mode === 'signed_out') {
         setHidden(signIn, false);
         var field = destinationField();
@@ -466,7 +485,7 @@
         return;
       }
       if (mode === 'stripe') startPortal();
-      else if (mode === 'subscribe') startCheckout();
+      else if (mode === 'subscribe') startCheckout(plan);
     }
 
     function sendCode() {
@@ -570,7 +589,9 @@
     if (sendBtn) sendBtn.addEventListener('click', sendCode);
     if (verifyBtn) verifyBtn.addEventListener('click', verifyCode);
     if (resetBtn) resetBtn.addEventListener('click', resetDestination);
-    if (primary) primary.addEventListener('click', onPrimary);
+    planButtons.forEach(function (btn) {
+      btn.addEventListener('click', onPlanClick);
+    });
     if (retry) retry.addEventListener('click', function () { refreshPro(); });
     if (signOut) signOut.addEventListener('click', signOut);
     if (notNow) notNow.addEventListener('click', onNotNow);
@@ -614,6 +635,7 @@
     CONFIRM_GIVE_UP_MS: CONFIRM_GIVE_UP_MS,
     CONFIRM_FALLBACK: CONFIRM_FALLBACK,
     PRO_READY_TITLE: PRO_READY_TITLE,
+    checkoutBody: checkoutBody,
     decideOffer: decideOffer,
     primaryAction: primaryAction,
     stripeStatusText: stripeStatusText,

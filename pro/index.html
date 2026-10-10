@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MOUR Pro — $9.99/month, cancel anytime</title>
-  <meta name="description" content="MOUR Pro is $9.99 a month. Cancel anytime. Free MOUR stays fully usable." />
+  <title>MOUR Pro — $9.99 or $19.99 a month</title>
+  <meta name="description" content="Pro is $9.99 a month. Pro Plus is $19.99 a month. Cancel anytime. Free MOUR stays fully usable." />
   <link rel="icon" type="image/png" href="/assets/mour-glasses-logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="/css/pro.css" />
 </head>
 <body class="pro-body" data-pro-page="offer" data-api-base="https://mour-backend.onrender.com">
-  <div class="pro-wrap">
+  <div class="pro-wrap pro-wrap-plans">
     <a class="pro-brand" href="/">
       <img src="/assets/mour-glasses-logo.png" alt="" width="36" height="36" />
       <span>MOUR</span>
@@ -31,53 +31,72 @@
         <p class="pro-audience">For people who post bounties</p>
       </header>
 
-      <div class="pro-price-card">
-        <p class="pro-price-exact">
-          <span class="pro-amount">$9.99</span><span class="pro-per">/month</span>
-          <span class="pro-anytime">Cancel anytime</span>
-        </p>
-      </div>
+      <section class="pro-plans" aria-label="Plans">
+        <article class="pro-plan">
+          <h2 class="pro-plan-name">Pro</h2>
+          <p class="pro-price-exact">
+            <span class="pro-amount">$9.99</span><span class="pro-per">/mo</span>
+            <span class="pro-anytime">Cancel anytime</span>
+          </p>
+          <p class="pro-plan-lead">Plenty of personal 3D renders, plus unlimited renders on your bounties.</p>
+          <section class="pro-benefits" aria-label="Pro benefits">
+            <ul>
+              <li>
+                <span class="pro-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>
+                </span>
+                <span>
+                  <strong>2 free boosts every month</strong>
+                  <span>Unused boosts don't roll over</span>
+                </span>
+              </li>
+              <li>
+                <span class="pro-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v5l3 2"/></svg>
+                </span>
+                <span>
+                  <strong>Half-price rush fees</strong>
+                  <span>$2.50 photo · $5 video</span>
+                </span>
+              </li>
+              <li>
+                <span class="pro-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 4h10a1 1 0 0 1 1 1v15l-6-3-6 3V5a1 1 0 0 1 1-1z"/></svg>
+                </span>
+                <span>
+                  <strong>Saved spots</strong>
+                  <span>Plus one-tap "Repost this gig"</span>
+                </span>
+              </li>
+              <li>
+                <span class="pro-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 6h14v9H8l-3 3V6z"/></svg>
+                </span>
+                <span>
+                  <strong>Faster support</strong>
+                  <span>A real person, front of the line</span>
+                </span>
+              </li>
+            </ul>
+          </section>
+          <div class="pro-subscribe-block">
+            <button type="button" class="pro-btn pro-btn-primary" data-plan="pro">Subscribe</button>
+            <p class="pro-price-note">$9.99 a month, renews monthly until you cancel.</p>
+          </div>
+        </article>
 
-      <section class="pro-benefits" aria-labelledby="pro-get">
-        <h2 id="pro-get">What you get</h2>
-        <ul>
-          <li>
-            <span class="pro-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>
-            </span>
-            <span>
-              <strong>2 free boosts every month</strong>
-              <span>Unused boosts don't roll over</span>
-            </span>
-          </li>
-          <li>
-            <span class="pro-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v5l3 2"/></svg>
-            </span>
-            <span>
-              <strong>Half-price rush fees</strong>
-              <span>$2.50 photo · $5 video</span>
-            </span>
-          </li>
-          <li>
-            <span class="pro-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 4h10a1 1 0 0 1 1 1v15l-6-3-6 3V5a1 1 0 0 1 1-1z"/></svg>
-            </span>
-            <span>
-              <strong>Saved spots</strong>
-              <span>Plus one-tap "Repost this gig"</span>
-            </span>
-          </li>
-          <li>
-            <span class="pro-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 6h14v9H8l-3 3V6z"/></svg>
-            </span>
-            <span>
-              <strong>Faster support</strong>
-              <span>A real person, front of the line</span>
-            </span>
-          </li>
-        </ul>
+        <article class="pro-plan">
+          <h2 class="pro-plan-name">Pro Plus</h2>
+          <p class="pro-price-exact">
+            <span class="pro-amount">$19.99</span><span class="pro-per">/mo</span>
+            <span class="pro-anytime">Cancel anytime</span>
+          </p>
+          <p class="pro-plan-lead">Our most 3D renders, for when you want to capture everything.</p>
+          <div class="pro-subscribe-block">
+            <button type="button" class="pro-btn pro-btn-primary" data-plan="pro_plus">Subscribe</button>
+            <p class="pro-price-note">$19.99 a month, renews monthly until you cancel.</p>
+          </div>
+        </article>
       </section>
 
       <section id="pro-sign-in" class="pro-signin" aria-labelledby="pro-signin-title">
@@ -114,10 +133,6 @@
       <p id="pro-status" class="pro-status" role="status" aria-live="polite"></p>
 
       <div class="pro-actions">
-        <div id="pro-subscribe-block" class="pro-subscribe-block">
-          <button type="button" id="pro-subscribe" class="pro-btn pro-btn-primary">Subscribe</button>
-          <p id="pro-price-note" class="pro-price-note">$9.99 a month, renews monthly until you cancel.</p>
-        </div>
         <button type="button" id="pro-retry" class="pro-btn pro-btn-primary" hidden>Try again</button>
         <a id="pro-not-now" class="pro-btn pro-btn-outline" href="/">Not now</a>
       </div>
