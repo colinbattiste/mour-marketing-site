@@ -1,0 +1,17 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": ["3VF3Y8LGA5.com.mour.app"],
+        "appID": "3VF3Y8LGA5.com.mour.app",
+        "components": [
+          { "/": "/s/*", "comment": "Shared post links (share token)" },
+          { "/": "/p/*", "comment": "Post links" }
+        ],
+        "paths": ["/s/*", "/p/*"]
+      }
+    ]
+  },
+  "webcredentials": { "apps": ["3VF3Y8LGA5.com.mour.app"] }
+}
