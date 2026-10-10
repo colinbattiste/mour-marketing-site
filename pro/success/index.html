@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Confirming — MOUR Pro</title>
+  <meta name="description" content="Your MOUR subscription renews monthly until you cancel." />
+  <link rel="icon" type="image/png" href="/assets/mour-glasses-logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/pro.css" />
+</head>
+<body class="pro-body" data-pro-page="success" data-api-base="https://mour-backend.onrender.com">
+  <div class="pro-wrap">
+    <a class="pro-brand" href="/">
+      <img src="/assets/mour-glasses-logo.png" alt="" width="36" height="36" />
+      <span>MOUR</span>
+    </a>
+
+    <article class="pro-card">
+      <div class="pro-confetti" id="pro-confetti" hidden aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="pro-star" id="pro-star" hidden aria-hidden="true">
+        <svg width="54" height="54" viewBox="0 0 24 24" fill="#fff"><path d="M12 2.5l2.7 6.4 6.8.6-5.2 4.4 1.6 6.6L12 17.8 6.1 20.5l1.6-6.6L2.5 9.5l6.8-.6L12 2.5z"/></svg>
+      </div>
+      <header class="pro-hero">
+        <h1 id="pro-success-title">Confirming…</h1>
+        <p id="pro-thanks" class="pro-thanks" hidden>Thanks for backing MOUR.<br />Here's what's on now.</p>
+      </header>
+
+      <ul id="pro-unlocked" class="pro-checks pro-success-list" hidden>
+        <li>
+          <span class="pro-check" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>
+          </span>
+          <span>
+            <strong>2 free boosts every month</strong>
+            <span>Unused boosts don't roll over</span>
+          </span>
+        </li>
+        <li>
+          <span class="pro-check" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>
+          </span>
+          <span>
+            <strong>Half-price rush fees</strong>
+            <span>$2.50 photo · $5 video</span>
+          </span>
+        </li>
+        <li>
+          <span class="pro-check" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>
+          </span>
+          <span>
+            <strong>Saved spots</strong>
+            <span>Plus one-tap "Repost this gig"</span>
+          </span>
+        </li>
+        <li>
+          <span class="pro-check" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>
+          </span>
+          <span>
+            <strong>Faster support</strong>
+            <span>A real person, front of the line</span>
+          </span>
+        </li>
+      </ul>
+
+      <p id="pro-confirm-note" class="pro-legal" role="status" aria-live="polite">This usually takes a few seconds.</p>
+      <p id="pro-renewal" class="pro-renewal" hidden>Renews monthly until you cancel.</p>
+
+      <div class="pro-actions">
+        <a class="pro-btn pro-btn-done" href="/">Done</a>
+      </div>
+    </article>
+    <p class="pro-foot">© 2026 MOUR APP LLC</p>
+  </div>
+  <script src="/js/pro-config.js"></script>
+  <script src="/js/pro.js"></script>
+</body>
+</html>

@@ -1,2 +1,7 @@
 /privacy /privacy/ 301
 /terms /terms/ 301
+/pro /pro/ 301
+/pro/success /pro/success/ 301
+/pro/cancel /pro/cancel/ 301
+/pro/confirmed /pro/success/ 302
+/pro/confirmed/ /pro/success/ 302
